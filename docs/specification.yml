@@ -1,0 +1,306 @@
+openapi: 3.0.0
+info:
+  title: Oishi Ninja API
+  description: Oishi Ninja API は、美味しいレシピを提供するAPIです。
+  version: 1.0.0
+servers:
+  - url: https://localhost:4000
+    description: 開発環境
+tags:
+  - name: recipes
+    description: レシピに関するAPI
+
+paths:
+  /recipes/ranking:
+    get:
+      tags:
+        - recipes
+      summary: |
+        ヘッダーでした国のレシピランキングを取得
+      operationId: getRecipeRanking
+      parameters:
+        - $ref: '#/components/parameters/CountryCodeHeaderParameter'
+        - $ref: '#/components/parameters/CountQueryParameter'
+        - $ref: '#/components/parameters/OffsetQueryParameter'
+      responses:
+        '200':
+          $ref: '#/components/responses/GetRecipeRankingOkResponse'
+        '400':
+          $ref: '#/components/responses/GetRecipeRankingBadRequestResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponse'
+  /recipes/{recipeId}:
+    get:
+      tags:
+        - recipes
+      summary: |
+        レシピを取得。ヘッダーで指定された国のレシピを取得
+      operationId: getRecipeById
+      parameters:
+        - $ref: '#/components/parameters/CountryCodeHeaderParameter'
+        - $ref: '#/components/parameters/RecipeIdPathParameter'
+      responses:
+        '200':
+          $ref: '#/components/responses/GetRecipeOkResponse'
+        '400':
+          $ref: '#/components/responses/GetRecipeBadRequestResponse'
+        '404':
+          $ref: '#/components/responses/GetRecipeNotFoundResponse'
+        '500':
+          $ref: '#/components/responses/InternalServerErrorResponse'
+  /recipes/{recipeId}/likes:
+      post:
+        tags:
+          - recipes
+        summary: |
+          レシピをいいねする。ヘッダーで指定された国のレシピをいいねする。
+        operationId: likeRecipeById
+        parameters:
+          - $ref: '#/components/parameters/RecipeIdPathParameter'
+          - $ref: '#/components/parameters/CountryCodeHeaderParameter'
+        responses:
+          '200':
+            $ref: '#/components/responses/LikeRecipeOkResponse'
+          '400':
+            $ref: '#/components/responses/LikeRecipeBadRequestResponse'
+          '404':
+            $ref: '#/components/responses/LikeRecipeNotFoundResponse'
+          '500':
+            $ref: '#/components/responses/InternalServerErrorResponse'
+      delete:
+        tags:
+          - recipes
+        summary: レシピのいいねを削除する。ヘッダーで指定された国のレシピのいいねを削除する。
+        operationId: unlikeRecipeById
+        parameters:
+          - $ref: '#/components/parameters/CountryCodeHeaderParameter'
+          - $ref: '#/components/parameters/RecipeIdPathParameter'
+        responses:
+          '200':
+            $ref: '#/components/responses/UnlikeRecipeOkResponse'
+          '400':
+            $ref: '#/components/responses/UnlikeRecipeBadRequestResponse'
+          '404':
+            $ref: '#/components/responses/UnlikeRecipeNotFoundResponse'
+          '500':
+            $ref: '#/components/responses/InternalServerErrorResponse'
+components:
+  schemas:
+    Pagination:
+      type: object
+      properties:
+        total:
+          type: integer
+        offset:
+          type: integer
+        limit:
+          type: integer
+    Recipe:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+          description: 名称
+          example: "カレーライス"
+        thumbnail:
+          type: string
+          format: url
+          description: サムネイル画像のURL
+          example: "https://example.com/recipe.jpg"
+        instructions:
+          type: string
+          description: 作り方
+          example: |
+            1. 材料を切る
+            2. 玉ねぎを炒める
+            3. 肉を加えて炒める
+            4. 水を加えて煮込む
+            5. ルーを加えてさらに煮込む
+        ingredientQuantities:
+          type: array
+          items:
+            $ref: '#/components/schemas/IngredientQuantity'
+        likes:
+          type: integer
+          description: いいねの数
+    Ingredient:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+          description: 材料の名称
+          example: "玉ねぎ"
+    IngredientQuantity:
+      type: object
+      properties:
+        ingredient:
+          $ref: '#/components/schemas/Ingredient'
+        quantity:
+          type: string
+          description: 材料の量
+          example: "1個"
+    RecipeRankingBody:
+      type: object
+      properties:
+        recipes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Recipe'
+        pagination:
+          $ref: '#/components/schemas/Pagination'
+    InvalidCountryCodeBody:
+      type: object
+      properties:
+        message:
+          type: string
+          description: エラーメッセージ
+          example: "Invalid country code"
+    LikeResultBody:
+      type: object
+      properties:
+        message:
+          type: string
+          description: メッセージ
+          example: いいねしました
+        likes:
+          type: integer
+          description: いいねの数
+      required:
+        - message
+        - likes
+    NotFoundBody:
+      type: object
+      properties:
+        message:
+          type: string
+          description: エラーメッセージ
+          example: "Not found"
+  parameters:
+    CountryCodeHeaderParameter:
+      name: X-Country-Code
+      in: header
+      required: true
+      description: 国コード
+      schema:
+        type: string
+        pattern: "^[A-Z]{2}$"
+        example: "JP"
+    RecipeIdPathParameter:
+      name: recipeId
+      in: path
+      required: true
+      description: レシピID
+      schema:
+        type: string
+        format: uuid
+        example: 123e4567-e89b-12d3-a456-426614174000
+    CountQueryParameter:
+      name: count
+      in: query
+      required: false
+      description: 取得する件数の上限
+      schema:
+        type: integer
+        example: 10
+        minimum: 1
+        maximum: 100
+    OffsetQueryParameter:
+      name: offset
+      in: query
+      required: false
+      description: 取得する件数のオフセット
+      schema:
+        type: integer
+        example: 0
+        minimum: 0
+  responses:
+    InternalServerErrorResponse:
+      description: サーバーエラー
+      content:
+        application/json:
+          schema:
+            properties:
+              message:
+                type: string
+                description: エラーメッセージ
+                example: "Internal server error"
+            required:
+              - message
+    GetRecipeRankingOkResponse:
+      description: レシピの一覧
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RecipeRankingBody'
+    GetRecipeRankingBadRequestResponse:
+      description: 不正なリクエスト
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/InvalidCountryCodeBody'
+    GetRecipeOkResponse:
+      description: レシピ
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Recipe'
+    GetRecipeBadRequestResponse:
+      description: 不正なリクエスト
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/InvalidCountryCodeBody'
+    GetRecipeNotFoundResponse:
+      description: レシピが見つからない
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotFoundBody'
+    LikeRecipeOkResponse:
+      description: いいね成功
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/LikeResultBody'
+    LikeRecipeBadRequestResponse:
+      description: 不正なリクエスト
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/InvalidCountryCodeBody'
+    LikeRecipeNotFoundResponse:
+      description: レシピが見つからない
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotFoundBody'
+    UnlikeRecipeOkResponse:
+      description: いいね削除成功
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/LikeResultBody'
+    UnlikeRecipeBadRequestResponse:
+      description: 不正なリクエスト
+      content:
+        application/json:
+          schema:
+            oneOf:
+              - $ref: '#/components/schemas/InvalidCountryCodeBody'
+    UnlikeRecipeNotFoundResponse:
+      description: レシピが見つからない
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/NotFoundBody'
