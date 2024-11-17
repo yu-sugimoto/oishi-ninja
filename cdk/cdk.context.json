@@ -1,0 +1,15 @@
+{
+  "availability-zones:account=693825121436:region=ap-northeast-1": [
+    "ap-northeast-1a",
+    "ap-northeast-1c",
+    "ap-northeast-1d"
+  ],
+  "hosted-zone:account=693825121436:domainName=oishi-ninja.com:region=ap-northeast-1": {
+    "Id": "/hostedzone/Z07921092NCHZXTLFGY3Q",
+    "Name": "oishi-ninja.com."
+  },
+  "hosted-zone:account=693825121436:domainName=oishi-ninja.com:region=us-east-1": {
+    "Id": "/hostedzone/Z07921092NCHZXTLFGY3Q",
+    "Name": "oishi-ninja.com."
+  }
+}
