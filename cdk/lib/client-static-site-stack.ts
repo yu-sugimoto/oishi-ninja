@@ -1,4 +1,5 @@
 import * as cdk from 'aws-cdk-lib';
+import * as iam from 'aws-cdk-lib/aws-iam';
 import { Stack, StackProps } from 'aws-cdk-lib';
 import * as s3 from 'aws-cdk-lib/aws-s3';
 import * as s3Deployment from 'aws-cdk-lib/aws-s3-deployment';
@@ -51,6 +52,12 @@ export class ClientStaticSiteStack extends Stack {
       domainNames: [siteDomain],
       certificate,
     });
+
+    staticSiteBucket.addToResourcePolicy(new iam.PolicyStatement({
+      actions: ['s3:GetObject'],
+      resources: [`${staticSiteBucket.bucketArn}/*`],
+      principals: [new iam.CanonicalUserPrincipal(distribution.distributionId)],
+    }));
 
     // Route 53 に A レコードを追加
     new route53.ARecord(this, 'ClientAliasRecord', {
