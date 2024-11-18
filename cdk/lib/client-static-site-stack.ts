@@ -43,20 +43,28 @@ export class ClientStaticSiteStack extends Stack {
       props.certificateArn
     );
 
+    // CloudFront オリジンアクセスアイデンティティを作成
+    const originAccessIdentity = new cloudfront.OriginAccessIdentity(this, 'OAI', {
+      comment: `OAI for ${props.envName}`,
+    });
+
     // CloudFront Distribution 作成
     const distribution = new cloudfront.Distribution(this, createId('ClientStaticSiteDistribution', props.envName), {
       defaultBehavior: {
-        origin: new cloudfrontOrigins.S3StaticWebsiteOrigin(staticSiteBucket),
+        origin: new cloudfrontOrigins.S3Origin(staticSiteBucket, {
+          originAccessIdentity,
+        }),
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
       },
       domainNames: [siteDomain],
       certificate,
     });
 
+    // S3 バケットポリシーに OAI を追加
     staticSiteBucket.addToResourcePolicy(new iam.PolicyStatement({
       actions: ['s3:GetObject'],
       resources: [`${staticSiteBucket.bucketArn}/*`],
-      principals: [new iam.CanonicalUserPrincipal(distribution.distributionId)],
+      principals: [new iam.CanonicalUserPrincipal(originAccessIdentity.cloudFrontOriginAccessIdentityS3CanonicalUserId)],
     }));
 
     // Route 53 に A レコードを追加
