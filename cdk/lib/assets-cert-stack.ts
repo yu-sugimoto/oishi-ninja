@@ -2,10 +2,12 @@ import * as cdk from 'aws-cdk-lib';
 import { Stack } from 'aws-cdk-lib';
 import * as certificatemanager from 'aws-cdk-lib/aws-certificatemanager';
 import * as route53 from 'aws-cdk-lib/aws-route53';
+import { createDomainName } from './utilities/domain';
+import { createId } from './utilities/id';
 
 interface AssetsCertStackProps extends cdk.StackProps {
   domainName: string;
-  prefix?: string;
+  envName: string;
 }
 
 export class AssetsCertStack extends Stack {
@@ -20,16 +22,14 @@ export class AssetsCertStack extends Stack {
       }
     });
 
-    const siteDomain = props.prefix
-      ? `${props.prefix}-assets.${props.domainName}`
-      : `assets.${props.domainName}`;
+    const siteDomain = createDomainName(props.domainName, 'assets', props.envName);
 
-    const hostedZone = route53.HostedZone.fromLookup(this, 'HostedZone', {
+    const hostedZone = route53.HostedZone.fromLookup(this, createId('HostedZone', props.envName), {
       domainName: props.domainName,
     });
 
     // ACM証明書を作成
-    const certificate = new certificatemanager.Certificate(this, 'AssetsCertificate', {
+    const certificate = new certificatemanager.Certificate(this, createId('AssetsCertificate'), {
       domainName: siteDomain,
       validation: certificatemanager.CertificateValidation.fromDns(hostedZone),
     });
@@ -37,7 +37,7 @@ export class AssetsCertStack extends Stack {
     this.certificateArn = certificate.certificateArn;
 
     // 出力
-    new cdk.CfnOutput(this, 'AssetsCertificateArn', {
+    new cdk.CfnOutput(this, createId('AssetsCertificateArn'), {
       value: this.certificateArn,
       description: 'ACM Certificate ARN for CloudFront',
     });

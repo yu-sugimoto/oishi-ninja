@@ -7,11 +7,13 @@ import * as route53Targets from 'aws-cdk-lib/aws-route53-targets';
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as cloudfrontOrigins from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as certificatemanager from 'aws-cdk-lib/aws-certificatemanager';
+import { createDomainName } from './utilities/domain';
+import { createId } from './utilities/id';
 
 interface ClientStaticSiteStackProps extends StackProps {
   apiUrl: string;
   domainName: string;
-  prefix?: string;
+  envName?: string;
   certificateArn: string;
 }
 
@@ -19,17 +21,15 @@ export class ClientStaticSiteStack extends Stack {
   constructor(scope: cdk.App, id: string, props: ClientStaticSiteStackProps) {
     super(scope, id, props);
 
-    const hostedZone = route53.HostedZone.fromLookup(this, 'HostedZone', {
+    const hostedZone = route53.HostedZone.fromLookup(this, createId('HostedZone', props.envName), {
       domainName: props.domainName,
     });
 
     // サブドメインを生成
-    const siteDomain = props.prefix
-      ? `${props.prefix}.${props.domainName}`
-      : props.domainName;
+    const siteDomain = createDomainName(props.domainName, '', props.envName);
 
     // S3 バケット作成
-    const staticSiteBucket = new s3.Bucket(this, 'ClientStaticSiteBucket', {
+    const staticSiteBucket = new s3.Bucket(this, createId('ClientStaticSiteBucket', props.envName), {
       websiteIndexDocument: 'index.html',
       publicReadAccess: false, // CloudFront 経由でのみアクセス
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
@@ -43,7 +43,7 @@ export class ClientStaticSiteStack extends Stack {
     );
 
     // CloudFront Distribution 作成
-    const distribution = new cloudfront.Distribution(this, 'ClientStaticSiteDistribution', {
+    const distribution = new cloudfront.Distribution(this, createId('ClientStaticSiteDistribution', props.envName), {
       defaultBehavior: {
         origin: new cloudfrontOrigins.S3StaticWebsiteOrigin(staticSiteBucket),
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,

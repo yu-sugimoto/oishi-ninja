@@ -6,10 +6,11 @@ import * as route53Targets from 'aws-cdk-lib/aws-route53-targets';
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as cloudfrontOrigins from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as certificatemanager from 'aws-cdk-lib/aws-certificatemanager';
+import { createDomainName } from './utilities/domain';
 
 interface AssetsStaticSiteStackProps extends StackProps {
   domainName: string;
-  prefix?: string;
+  envName?: string;
   certificateArn: string; // 証明書のARNを受け取る
 }
 
@@ -25,9 +26,7 @@ export class AssetsStaticSiteStack extends Stack {
     });
 
     // サブドメインを生成
-    const siteDomain = props.prefix
-      ? `${props.prefix}-assets.${props.domainName}`
-      : `assets.${props.domainName}`;
+    const siteDomain = createDomainName(props.domainName, 'assets', props.envName);
 
     // S3 バケット作成
     this.bucket = new s3.Bucket(this, 'AssetsBucket', {

@@ -2,7 +2,6 @@
 import * as dotenv from 'dotenv';
 
 import * as cdk from 'aws-cdk-lib';
-import { NetworkAndDatabaseStack } from '../lib/network-and-database-stack';
 import { WebApiStack } from '../lib/web-api-stack';
 import { ClientStaticSiteStack } from '../lib/client-static-site-stack';
 import { AssetsStaticSiteStack } from '../lib/assets-static-site-stack';
@@ -13,7 +12,7 @@ dotenv.config();
 
 const app = new cdk.App();
 
-const prefix = app.node.tryGetContext('env') || '';
+const envName = app.node.tryGetContext('env') || '';
 const domainName = process.env.DOMAIN_NAME
 
 if (!domainName) throw new Error('DOMAIN_NAME environment variable is required');
@@ -23,25 +22,22 @@ const env = {
   region: process.env.CDK_DEFAULT_REGION,
 };
 
-const networkAndDatabaseStack = new NetworkAndDatabaseStack(app, 'NetworkAndDatabaseStack', { env });
-
 const webApiStack = new WebApiStack(app, 'WebApiStack', {
-  vpc: networkAndDatabaseStack.vpc,
   domainName,
-  prefix,
+  envName,
   env
 });
 
 const certStack = new ClientCertStack(app, 'ClientCertStack', {
   domainName,
-  prefix,
+  envName,
   env
 });
 
 new ClientStaticSiteStack(app, 'ClientStaticSiteStack', {
   apiUrl: webApiStack.apiUrl,
   domainName,
-  prefix,
+  envName,
   certificateArn: certStack.certificateArn,
   env,
   crossRegionReferences: true
@@ -49,13 +45,13 @@ new ClientStaticSiteStack(app, 'ClientStaticSiteStack', {
 
 const assetsCertStack = new AssetsCertStack(app, 'AssetsCertStack', {
   domainName,
-  prefix,
+  envName,
   env
 });
 
 new AssetsStaticSiteStack(app, 'AssetsStaticSiteStack', {
   domainName,
-  prefix,
+  envName,
   certificateArn: assetsCertStack.certificateArn,
   env,
   crossRegionReferences: true

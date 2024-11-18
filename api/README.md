@@ -1,10 +1,28 @@
 # Oishi-Ninja API
 
-Python の Flask を使って API サーバーを構築します。
+Oishi Ninja のAPI
 
-pyenv を使って環境構築します。
+# 技術構成
 
-# ローカルでの開発
+- [Python3](https://www.python.org/)
+- [Flask](https://flask.palletsprojects.com/)
+- [SQLAlchemy](https://www.sqlalchemy.org/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [AWS RDS](https://aws.amazon.com/jp/rds/)
+- [AWS EC2](https://aws.amazon.com/jp/ec2/)
+
+# AWS上のRDSに接続する方法
+
+RDS に対してローカルからアクセスする場合は、ポートフォワーディングを使用してトンネリングを行う必要がある。
+
+次の手順でポートフォワーディングを行う。
+
+1. AWS CLI のインストール
+2. 認証情報の設定
+3. SSM セッションマネージャーの設定
+4. 接続先の確認
+5. ポートフォワーディングの実行
+6. PostgreSQL の疎通確認
 
 ## AWS CLI のインストール
 
@@ -12,25 +30,25 @@ pyenv を使って環境構築します。
 
 1. AWS CLI をダウンロードしてインストール。
    ```bash
-   curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
-   sudo installer -pkg AWSCLIV2.pkg -target /
+   % curl "https://awscli.amazonaws.com/AWSCLIV2.pkg" -o "AWSCLIV2.pkg"
+   % sudo installer -pkg AWSCLIV2.pkg -target /
    ```
 2. インストール後にバージョンを確認。
    ```bash
-   aws --version
+   % aws --version
    ```
 
 ### Linux
 
 1. AWS CLI をダウンロードしてインストール。
    ```bash
-   curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-   unzip awscliv2.zip
-   sudo ./aws/install
+   $ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+   $ unzip awscliv2.zip
+   $ sudo ./aws/install
    ```
 2. インストール後にバージョンを確認。
    ```bash
-   aws --version
+   $ aws --version
    ```
 
 ### Windows
@@ -38,50 +56,47 @@ pyenv を使って環境構築します。
 1. [AWS CLI インストーラー](https://awscli.amazonaws.com/AWSCLIV2.msi) をダウンロードして実行。
 2. インストール後にバージョンを確認。
    ```powershell
-   aws --version
+   > aws --version
    ```
-
----
-
-## 認証情報の取得
-
-
-### ログイン
-[AWS マネジメントコンソール](https://aws.amazon.com/jp/console/) にログインする。
-
-### セキュリティクレデンシャルページを開く
-1. 右上のアカウント名またはアイコンをクリックする。
-2. メニューから「マイセキュリティクレデンシャル」を選択する。
-
-### 認証情報の確認
-- **アクセスキー**: 「アクセスキー（アクセスキー ID とシークレットアクセスキー）」セクションで自分のアクセスキーを確認できる。
-- **パスワードポリシー**: 「パスワード」セクションで自分のパスワードポリシーを確認できる。
 
 ---
 
 ## 認証情報の設定
 
-1. AWS アカウントの IAM ユーザーを作成し、アクセスキーとシークレットキーを取得。
-2. AWS CLI で認証情報を設定。
+IAMで対象のサービスに対して十分な権限がある前提とする。次の手順で問題がある場合はAWSアカウント管理者に問い合わせる。
+
+### アクセスキーの取得
+
+アクセスキーとシークレットキーを取得する。
+
+1. [AWS マネジメントコンソール](https://aws.amazon.com/jp/console/) にログインする。
+2. 右上のアカウント名またはアイコンをクリックして、ドロップダウンメニューを開く。
+3. 「セキュリティ認証情報」をクリックして、セキュリティ認証情報を開く。
+4. アクセスキーのセクションで「アクセスキーの作成」をクリックして、アクセスキーとシークレットキーを取得する。
+5. コマンドラインインターフェイス (CLI) で認証情報を設定する。
+6. .csv ファイルをダウンロードして、認証情報を確認する。
+
+### 認証情報の設定
+
+1. AWS CLI で認証情報を設定する。
    ```bash
    aws configure
    ```
-   以下のプロンプトに応答して設定を完了。
+   以下のプロンプトに応答して設定を完了する。
    ```
    AWS Access Key ID [None]: <アクセスキー>
    AWS Secret Access Key [None]: <シークレットキー>
    Default region name [None]: <リージョン名> (例: ap-northeast-1)
    Default output format [None]: json
    ```
-
-3. 設定内容を確認。
+2. 設定内容を確認する。
    ```bash
    cat ~/.aws/credentials
    ```
 
 ---
 
-## SSM セッションマネージャーのインストール
+## SSM セッションマネージャーの設定
 
 ### macOS
 
@@ -117,37 +132,25 @@ pyenv を使って環境構築します。
 
 ---
 
-## データベースエンドポイントの確認
-
-### 1. AWS マネジメントコンソールにログイン
-- [AWS マネジメントコンソール](https://aws.amazon.com/jp/console/) にアクセスし、IAM ユーザーまたはルートユーザーでログインする。
-
-### 2. RDS サービスページを開く
-- コンソール画面の上部にある検索バーに「RDS」と入力して選択。
-
-### 3. データベース一覧を表示
-- 左側のメニューから「データベース」をクリック。
-
-### 4. 確認したいデータベースを選択
-- 一覧から該当のデータベースをクリックして詳細画面を開く。
-
-### 5. エンドポイントの確認
-- 「データベースの接続」セクションを探す。
-- 「エンドポイント」と「ポート」を確認できる。
-  - エンドポイント: `<database-endpoint>`
-  - ポート: 通常は `5432` (PostgreSQL) または `3306` (MySQL)。
-
-### 6. エンドポイント情報をコピー
-- エンドポイントをコピーして、CLI やクライアントソフトでの接続設定に使用する。
-
----
+## 接続先の確認
 
 ### EC2 インスタンスの ID の確認
 
-1. AWS マネジメントコンソールにログイン。
+EC2 インスタンスIDの例: `i-xxxxxxxxxxxxxxxxx`
+
+1. [AWS マネジメントコンソール](https://aws.amazon.com/jp/console/)にログイン。
 2. EC2 サービスページを開く。
 3. インスタンス一覧から対象のインスタンスを選択。
 4. インスタンスの詳細ページの URL に含まれるインスタンス ID を確認。
+
+### RDS エンドポイントの確認
+
+RDS エンドポイントの例: `database-1.xxxxxxxxxxxxx.ap-northeast-1.rds.amazonaws.com`
+
+1. [AWS マネジメントコンソール](https://aws.amazon.com/jp/console/)にログイン。
+2. RDS サービスページを開く。
+3. インスタンス一覧から対象のインスタンスを選択。
+4. インスタンスの詳細ページのエンドポイントを確認。
 
 ---
 
