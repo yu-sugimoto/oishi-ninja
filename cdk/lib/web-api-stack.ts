@@ -73,9 +73,24 @@ export class WebApiStack extends Stack {
     // EC2 インスタンスの UserData
     const userData = ec2.UserData.forLinux();
     userData.addCommands(
-      'yum install -y amazon-ssm-agent',
-      'systemctl enable amazon-ssm-agent',
-      'systemctl start amazon-ssm-agent'
+      // 必要な依存関係をインストール
+      'yum update -y',
+      'yum groupinstall -y "Development Tools"',
+      'yum install -y gcc libffi-devel bzip2 bzip2-devel zlib-devel xz-devel wget make',
+
+      // Python 3.13のソースコードをダウンロードしてビルド
+      'cd /usr/src',
+      'wget https://www.python.org/ftp/python/3.13.0/Python-3.13.0.tgz',
+      'tar xzf Python-3.13.0.tgz',
+      'cd Python-3.13.0',
+      './configure --enable-optimizations',
+      'make altinstall',
+
+      // Python 3.13.0がインストールされたか確認
+      'python3.13 --version',
+
+      // Poetryのインストール
+      'curl -sSL https://install.python-poetry.org | python3.13 -'
     );
 
     // EC2 インスタンスの作成
@@ -174,6 +189,7 @@ export class WebApiStack extends Stack {
 
     this.apiUrl = `https://${siteDomain}`;
 
-    new cdk.CfnOutput(this, 'ApiUrl', { value: this.apiUrl, });
+    new cdk.CfnOutput(this, 'API Url', { value: this.apiUrl });
+    new cdk.CfnOutput(this, 'API Server Intance ID', { value: apiServer.instanceId });
   }
 }
