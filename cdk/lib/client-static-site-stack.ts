@@ -31,9 +31,8 @@ export class ClientStaticSiteStack extends Stack {
 
     // S3 バケット作成
     const staticSiteBucket = new s3.Bucket(this, createId('ClientStaticSiteBucket', props.envName), {
-      websiteIndexDocument: 'index.html',
-      publicReadAccess: false, // CloudFront 経由でのみアクセス
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL, // パブリックアクセスを完全にブロック
+      enforceSSL: true, // SSLを強制
     });
 
     // 証明書をARNから取得
@@ -43,28 +42,43 @@ export class ClientStaticSiteStack extends Stack {
       props.certificateArn
     );
 
-    // CloudFront オリジンアクセスアイデンティティを作成
-    const originAccessIdentity = new cloudfront.OriginAccessIdentity(this, 'OAI', {
-      comment: `OAI for ${props.envName}`,
+    // OAC を作成
+    const originAccessControl = new cloudfront.CfnOriginAccessControl(this, createId('OAC', props.envName), {
+      originAccessControlConfig: {
+        name: createId('ClientStaticSiteOACConfig', props.envName),
+        originAccessControlOriginType: 's3',
+        signingBehavior: 'always',
+        signingProtocol: 'sigv4',
+      },
     });
 
     // CloudFront Distribution 作成
     const distribution = new cloudfront.Distribution(this, createId('ClientStaticSiteDistribution', props.envName), {
       defaultBehavior: {
-        origin: new cloudfrontOrigins.S3Origin(staticSiteBucket, {
-          originAccessIdentity,
-        }),
+        origin: cloudfrontOrigins.S3BucketOrigin.withOriginAccessControl(staticSiteBucket, ),
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
       },
       domainNames: [siteDomain],
       certificate,
+      defaultRootObject: 'index.html',
+      additionalBehaviors: {}
     });
 
-    // S3 バケットポリシーに OAI を追加
+    // OAC を Origin にリンク
+    const cfnDistribution = distribution.node.defaultChild as cloudfront.CfnDistribution;
+    cfnDistribution.addOverride('Properties.DistributionConfig.Origins.0.OriginAccessControlId', originAccessControl.attrId);
+
     staticSiteBucket.addToResourcePolicy(new iam.PolicyStatement({
       actions: ['s3:GetObject'],
       resources: [`${staticSiteBucket.bucketArn}/*`],
-      principals: [new iam.CanonicalUserPrincipal(originAccessIdentity.cloudFrontOriginAccessIdentityS3CanonicalUserId)],
+      principals: [
+        new iam.ServicePrincipal('cloudfront.amazonaws.com'),
+      ],
+      conditions: {
+        StringEquals: {
+          'AWS:SourceArn': `arn:aws:cloudfront::${this.account}:distribution/${distribution.distributionId}`,
+        },
+      },
     }));
 
     // Route 53 に A レコードを追加
