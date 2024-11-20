@@ -1,5 +1,17 @@
 <script setup lang="ts">
 import HelloWorld from './components/HelloWorld.vue'
+import { COUNTRY_CODE } from './constants/country';
+import { getRecipeRankingByCountryCode } from './services/api';
+
+async function requestRankingExample () {
+  console.log('ランキングの取得を開始します');
+  const ranking = await getRecipeRankingByCountryCode(COUNTRY_CODE.JP);
+  console.log('ランキングの取得が完了しました');
+  console.log(ranking);
+}
+
+requestRankingExample()
+
 </script>
 
 <template>
