@@ -2,9 +2,10 @@
 
 source .env
 
-# 引数または環境変数からバケット名とAWSプロファイルを取得
+# 引数または環境変数からバケット名、AWSプロファイル、CloudFrontディストリビューションIDを取得
 BUCKET_NAME=${1:-$CLIENT_S3_BUCKET}
 AWS_PROFILE=${2:-$AWS_PROFILE}
+DISTRIBUTION_ID=${3:-$CLIENT_CLOUDFRONT_DISTRIBUTION}
 
 # 必須引数のチェック
 if [ -z "$BUCKET_NAME" ]; then
@@ -14,6 +15,11 @@ fi
 
 if [ -z "$AWS_PROFILE" ]; then
   echo "[ERROR] AWSプロファイルが指定されていません。引数または環境変数 AWS_PROFILE を設定してください。"
+  exit 1
+fi
+
+if [ -z "$DISTRIBUTION_ID" ]; then
+  echo "[ERROR] CloudFrontディストリビューションIDが指定されていません。引数または環境変数 CLIENT_CLOUDFRONT_DISTRIBUTION を設定してください。"
   exit 1
 fi
 
@@ -60,6 +66,21 @@ log "ビルドされたファイルをバケット \"$BUCKET_NAME\" にアップ
 aws s3 sync ./dist "s3://$BUCKET_NAME" --profile "$AWS_PROFILE" || { echo "[ERROR] ファイルのアップロードに失敗しました。"; exit 1; }
 
 log "ファイルのアップロードが完了しました。"
+
+# CloudFrontキャッシュの削除
+log "CloudFrontディストリビューション \"$DISTRIBUTION_ID\" のキャッシュを削除中..."
+INVALIDATION_ID=$(aws cloudfront create-invalidation \
+  --distribution-id "$DISTRIBUTION_ID" \
+  --paths "/*" \
+  --profile "$AWS_PROFILE" \
+  --query 'Invalidation.Id' --output text)
+
+if [ $? -ne 0 ]; then
+  echo "[ERROR] CloudFrontのキャッシュ削除に失敗しました。"
+  exit 1
+fi
+
+log "キャッシュ削除がリクエストされました (Invalidation ID: $INVALIDATION_ID)。"
 
 # 終了メッセージ
 log "全ての手順が正常に完了しました。"
