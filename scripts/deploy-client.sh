@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source .env
+
 # 引数または環境変数からバケット名とAWSプロファイルを取得
 BUCKET_NAME=${1:-$CLIENT_S3_BUCKET}
 AWS_PROFILE=${2:-$AWS_PROFILE}

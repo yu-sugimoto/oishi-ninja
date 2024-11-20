@@ -19,7 +19,7 @@ paths:
         ヘッダーでした国のレシピランキングを取得
       operationId: getRecipeRanking
       parameters:
-        - $ref: '#/components/parameters/CountryCodeHeaderParameter'
+        - $ref: '#/components/parameters/CountryHeaderParameter'
         - $ref: '#/components/parameters/CountQueryParameter'
         - $ref: '#/components/parameters/OffsetQueryParameter'
       responses:
@@ -37,7 +37,7 @@ paths:
         レシピを取得。ヘッダーで指定された国のレシピを取得
       operationId: getRecipeById
       parameters:
-        - $ref: '#/components/parameters/CountryCodeHeaderParameter'
+        - $ref: '#/components/parameters/CountryHeaderParameter'
         - $ref: '#/components/parameters/RecipeIdPathParameter'
       responses:
         '200':
@@ -57,7 +57,7 @@ paths:
         operationId: likeRecipeById
         parameters:
           - $ref: '#/components/parameters/RecipeIdPathParameter'
-          - $ref: '#/components/parameters/CountryCodeHeaderParameter'
+          - $ref: '#/components/parameters/CountryHeaderParameter'
         responses:
           '200':
             $ref: '#/components/responses/LikeRecipeOkResponse'
@@ -73,7 +73,7 @@ paths:
         summary: レシピのいいねを削除する。ヘッダーで指定された国のレシピのいいねを削除する。
         operationId: unlikeRecipeById
         parameters:
-          - $ref: '#/components/parameters/CountryCodeHeaderParameter'
+          - $ref: '#/components/parameters/CountryHeaderParameter'
           - $ref: '#/components/parameters/RecipeIdPathParameter'
         responses:
           '200':
@@ -127,6 +127,13 @@ components:
         likes:
           type: integer
           description: いいねの数
+      required:
+        - id
+        - name
+        - thumbnail
+        - instructions
+        - ingredientQuantities
+        - likes
     Ingredient:
       type: object
       properties:
@@ -138,6 +145,9 @@ components:
           type: string
           description: 材料の名称
           example: "玉ねぎ"
+      required:
+        - id
+        - name
     IngredientQuantity:
       type: object
       properties:
@@ -147,6 +157,9 @@ components:
           type: string
           description: 材料の量
           example: "1個"
+      required:
+        - ingredient
+        - quantity
     RecipeRankingBody:
       type: object
       properties:
@@ -156,13 +169,18 @@ components:
             $ref: '#/components/schemas/Recipe'
         pagination:
           $ref: '#/components/schemas/Pagination'
-    InvalidCountryCodeBody:
+      required:
+        - recipes
+        - pagination
+    InvalidCountryBody:
       type: object
       properties:
         message:
           type: string
           description: エラーメッセージ
           example: "Invalid country code"
+      required:
+        - message
     LikeResultBody:
       type: object
       properties:
@@ -183,9 +201,11 @@ components:
           type: string
           description: エラーメッセージ
           example: "Not found"
+      required:
+        - message
   parameters:
-    CountryCodeHeaderParameter:
-      name: X-Country-Code
+    CountryHeaderParameter:
+      name: X-Country
       in: header
       required: true
       description: 国コード
@@ -246,7 +266,7 @@ components:
         application/json:
           schema:
             oneOf:
-              - $ref: '#/components/schemas/InvalidCountryCodeBody'
+              - $ref: '#/components/schemas/InvalidCountryBody'
     GetRecipeOkResponse:
       description: レシピ
       content:
@@ -259,7 +279,7 @@ components:
         application/json:
           schema:
             oneOf:
-              - $ref: '#/components/schemas/InvalidCountryCodeBody'
+              - $ref: '#/components/schemas/InvalidCountryBody'
     GetRecipeNotFoundResponse:
       description: レシピが見つからない
       content:
@@ -278,7 +298,7 @@ components:
         application/json:
           schema:
             oneOf:
-              - $ref: '#/components/schemas/InvalidCountryCodeBody'
+              - $ref: '#/components/schemas/InvalidCountryBody'
     LikeRecipeNotFoundResponse:
       description: レシピが見つからない
       content:
@@ -297,7 +317,7 @@ components:
         application/json:
           schema:
             oneOf:
-              - $ref: '#/components/schemas/InvalidCountryCodeBody'
+              - $ref: '#/components/schemas/InvalidCountryBody'
     UnlikeRecipeNotFoundResponse:
       description: レシピが見つからない
       content:
