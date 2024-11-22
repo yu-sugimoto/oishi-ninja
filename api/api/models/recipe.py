@@ -5,6 +5,7 @@ class Recipe(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), unique=True, nullable=False)
+    description = db.Column(db.String(80), unique=False, nullable=True)
 
     def __repr__(self):
-        return f"<Recipe {self.title}>"
+        return f"<Recipe {self.title}, {self.description}>"

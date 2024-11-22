@@ -21,12 +21,20 @@ def get_users():
 def create_recipe():
     data = request.get_json()
     title = data.get('title')
+    description = data.get('description')
 
-    recipe = Recipe(title=title)
+    recipe = Recipe(
+        title=title,
+        description=description
+    )
     db.session.add(recipe)
     db.session.commit()
 
-    return jsonify({'id': recipe.id, 'title': recipe.title}), 201
+    return jsonify({
+        'id': recipe.id,
+        'title': recipe.title,
+        'description': recipe.description
+    }), 201
 
 def start_app():
     """Flask アプリケーションを起動するスクリプト"""
