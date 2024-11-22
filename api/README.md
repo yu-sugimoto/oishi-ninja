@@ -49,6 +49,8 @@ DATABASE_URL=postgresql://<ユーザー名>:<パスワード>@<ホスト名>/<�
 % poetry run flask --app api:create_app db upgrade
 ```
 
+poetry run flask　--app api:db init
+
 ## マイグレーションの追加
 
 `/api/models/` にモデルを追加した場合、以下のコマンドでマイグレーションを追加する。

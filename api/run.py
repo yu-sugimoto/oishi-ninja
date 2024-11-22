@@ -16,7 +16,6 @@ def get_users():
     recipes = Recipe.query.all()
     return jsonify([{'id': recipe.id, 'title': recipe.title} for recipe in recipes])
 
-# NOTE: JSON から title を取得して、UUIDを生成後、DBに保存する.recipe 作成
 @app.route('/recipes', methods=['POST'])
 def create_recipe():
     data = request.get_json()
