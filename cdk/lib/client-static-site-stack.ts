@@ -8,10 +8,10 @@ import * as route53Targets from 'aws-cdk-lib/aws-route53-targets';
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as cloudfrontOrigins from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as certificatemanager from 'aws-cdk-lib/aws-certificatemanager';
-import { createDomainName } from './utilities/domain';
-import { createId } from './utilities/id';
+import { buildIdCreator, createDomainName } from './utilities';
 
 interface ClientStaticSiteStackProps extends StackProps {
+  appName: string;
   apiUrl: string;
   domainName: string;
   envName?: string;
@@ -22,78 +22,56 @@ export class ClientStaticSiteStack extends Stack {
   constructor(scope: cdk.App, id: string, props: ClientStaticSiteStackProps) {
     super(scope, id, props);
 
-    const hostedZone = route53.HostedZone.fromLookup(this, createId('HostedZone', props.envName), {
-      domainName: props.domainName,
-    });
-
-    // サブドメインを生成
+    const domainName = props.domainName;
     const siteDomain = createDomainName(props.domainName, '', props.envName);
+    const _id = buildIdCreator(props.appName, props.envName);
+
+    const hostedZone = route53.HostedZone.fromLookup(this, _id('HostedZone'), { domainName });
 
     // S3 バケット作成
-    const staticSiteBucket = new s3.Bucket(this, createId('ClientStaticSiteBucket', props.envName), {
-      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL, // パブリックアクセスを完全にブロック
-      enforceSSL: true, // SSLを強制
+    const staticSiteBucket = new s3.Bucket(this, _id('ClientStaticSiteBucket'), {
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      enforceSSL: true,
     });
 
     // 証明書をARNから取得
     const certificate = certificatemanager.Certificate.fromCertificateArn(
       this,
-      'ClientCertificate',
+      _id('ClientStaticSiteCertificate'),
       props.certificateArn
     );
 
-    // OAC を作成
-    const originAccessControl = new cloudfront.CfnOriginAccessControl(this, createId('OAC', props.envName), {
-      originAccessControlConfig: {
-        name: createId('ClientStaticSiteOACConfig', props.envName),
-        originAccessControlOriginType: 's3',
-        signingBehavior: 'always',
-        signingProtocol: 'sigv4',
-      },
-    });
-
     // CloudFront Distribution 作成
-    const distribution = new cloudfront.Distribution(this, createId('ClientStaticSiteDistribution', props.envName), {
+    const distribution = new cloudfront.Distribution(this, _id('ClientStaticSiteDistribution'), {
       defaultBehavior: {
-        origin: cloudfrontOrigins.S3BucketOrigin.withOriginAccessControl(staticSiteBucket, ),
+        origin: cloudfrontOrigins.S3BucketOrigin.withOriginAccessControl(staticSiteBucket),
         viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
       },
       domainNames: [siteDomain],
       certificate,
       defaultRootObject: 'index.html',
-      additionalBehaviors: {}
+      errorResponses: [
+        {
+          httpStatus: 404,
+          responseHttpStatus: 200,
+          responsePagePath: '/index.html', // 404をindex.htmlにフォールバック
+          ttl: cdk.Duration.days(1),
+        },
+      ],
     });
 
-    // OAC を Origin にリンク
-    const cfnDistribution = distribution.node.defaultChild as cloudfront.CfnDistribution;
-    cfnDistribution.addOverride('Properties.DistributionConfig.Origins.0.OriginAccessControlId', originAccessControl.attrId);
-
+    // バケットポリシーにCloudFront OACを設定
     staticSiteBucket.addToResourcePolicy(new iam.PolicyStatement({
       actions: ['s3:GetObject'],
       resources: [`${staticSiteBucket.bucketArn}/*`],
-      principals: [
-        new iam.ServicePrincipal('cloudfront.amazonaws.com'),
-      ],
-      conditions: {
-        StringEquals: {
-          'AWS:SourceArn': `arn:aws:cloudfront::${this.account}:distribution/${distribution.distributionId}`,
-        },
-      },
+      principals: [new iam.ServicePrincipal('cloudfront.amazonaws.com')],
     }));
 
     // Route 53 に A レコードを追加
-    new route53.ARecord(this, 'ClientAliasRecord', {
+    new route53.ARecord(this, _id('ClientAliasRecord'), {
       zone: hostedZone,
       recordName: siteDomain,
       target: route53.RecordTarget.fromAlias(new route53Targets.CloudFrontTarget(distribution)),
-    });
-
-    // API URL を環境変数として S3 にデプロイ
-    new s3Deployment.BucketDeployment(this, 'DeployApiConfig', {
-      sources: [
-        s3Deployment.Source.data('api-config.json', JSON.stringify({ apiUrl: props.apiUrl })),
-      ],
-      destinationBucket: staticSiteBucket,
     });
 
     // 出力
@@ -105,6 +83,11 @@ export class ClientStaticSiteStack extends Stack {
     new cdk.CfnOutput(this, 'ClientStaticSiteDomainName', {
       value: `https://${siteDomain}`,
       description: 'The CloudFront domain name for serving the client static files',
+    });
+
+    new cdk.CfnOutput(this, 'ClientStaticSiteDistributionId', {
+      value: distribution.distributionId,
+      description: 'The ID of the CloudFront distribution',
     });
   }
 }
