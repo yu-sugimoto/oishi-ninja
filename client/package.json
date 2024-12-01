@@ -10,6 +10,7 @@
     "generate": "npx openapi-typescript ../docs/specification.yml -o ./src/schema.d.ts"
   },
   "dependencies": {
+    "pinia": "^2.2.8",
     "uuid": "^11.0.3",
     "vue": "^3.5.12",
     "vue-router": "^4.5.0"
