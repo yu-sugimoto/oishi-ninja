@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ChooseCountry from './components/ChooseCountry.vue'
+import NavBar from './components/NavBar.vue'
 import { COUNTRY_CODE } from './constants/country';
 import { getRecipeRankingByCountryCode } from './services/api';
 
@@ -13,9 +13,7 @@ requestRankingExample()
 </script>
 
 <template>
-	<nav class="navBar">
-		<RouterLink to="/">Oishi-Ninja</RouterLink>
-	</nav>
+	<NavBar/>
 	<RouterView />
 </template>
 
