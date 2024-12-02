@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import ChooseCountry from './components/ChooseCountry.vue'
 import { COUNTRY_CODE } from './constants/country';
 import { getRecipeRankingByCountryCode } from './services/api';
 
@@ -9,21 +9,14 @@ async function requestRankingExample () {
   console.log('ランキングの取得が完了しました');
   console.log(ranking);
 }
-
 requestRankingExample()
-
 </script>
 
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+	<nav class="navBar">
+		<RouterLink to="/">Oishi-Ninja</RouterLink>
+	</nav>
+	<RouterView />
 </template>
 
 <style scoped>
