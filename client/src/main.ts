@@ -1,6 +1,7 @@
 import { createApp } from 'vue'
 import router from './router'
 import App from './App.vue'
+import './style.css'
 
 async function prepare() {
   if (import.meta.env.VITE_ENABLE_MOCK_API !== 'true') return
