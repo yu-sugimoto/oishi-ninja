@@ -1,0 +1,35 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "${PORT}:${PORT}"  # アプリケーションのポートを環境変数から設定
+    environment:
+      - FLASK_ENV=${FLASK_ENV}
+      - PORT=${PORT}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - DB_NAME=${DB_NAME}
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+    depends_on:
+      - db
+    command: >
+      bash -c "
+              poetry install &&
+              poetry run db-upgrade &&
+              poetry run start"
+  db:
+    image: postgres:14
+    environment:
+      POSTGRES_USER: ${DB_USER}      # 環境変数を使用
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:

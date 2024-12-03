@@ -14,9 +14,11 @@ flask-sqlalchemy = "^3.1.1"
 flask-migrate = "^4.0.7"
 python-dotenv = "^1.0.1"
 psycopg2-binary = "^2.9.10"
+gunicorn = "^23.0.0"
 
 [tool.poetry.scripts]
 start = "run:start_app"
+db-upgrade = "api.scripts:upgrade_db"
 
 [build-system]
 requires = ["poetry-core"]
