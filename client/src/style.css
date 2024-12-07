@@ -1,5 +1,6 @@
 :root {
 	--theme-color: #FFC011;
+	--selectbox-color: #E8E4E4;
 	box-sizing: border-box;
 	width: 411px;
 	margin: 0 auto;
