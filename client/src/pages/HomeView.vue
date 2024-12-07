@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue"
+import { useCountryStore } from './stores/useCountryStore.ts';
+import ChooseCountry from "../components/ChooseCountry.vue";
 
-const count = ref(0)
-const increment = () => {
-	count.value++
-}
 </script>
 <template>
 	<main>
@@ -12,8 +10,7 @@ const increment = () => {
 	<button>
 		<RouterLink to="/ranking">Go to Ranking</RouterLink>
 	</button>
-		<button @click="increment">Push!!</button>
-		<h2>{{ count }}</h2>
+	<ChooseCountry />
 	</main>
 </template>
 
