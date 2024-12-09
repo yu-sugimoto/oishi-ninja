@@ -1,6 +1,9 @@
 import { createApp } from 'vue'
-import './style.css'
+import router from './router'
+import { createPinia } from 'pinia'
 import App from './App.vue'
+import './style.css'
+
 
 async function prepare() {
   if (import.meta.env.VITE_ENABLE_MOCK_API !== 'true') return
@@ -11,5 +14,10 @@ async function prepare() {
 }
 
 prepare().then(() => {
-  createApp(App).mount('#app')
+	const pinia = createPinia()
+  createApp(App)
+		.use(router)
+		.use(pinia)
+		.mount('#app')
 })
+

@@ -1,29 +1,20 @@
 <script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
+import NavBar from './components/NavBar.vue'
 import { COUNTRY_CODE } from './constants/country';
 import { getRecipeRankingByCountryCode } from './services/api';
 
-async function requestRankingExample () {
-  console.log('ランキングの取得を開始します');
-  const ranking = await getRecipeRankingByCountryCode(COUNTRY_CODE.JPN);
-  console.log('ランキングの取得が完了しました');
-  console.log(ranking);
-}
-
-requestRankingExample()
-
+//async function requestRankingExample () {
+//  console.log('ランキングの取得を開始します');
+//  const ranking = await getRecipeRankingByCountryCode(COUNTRY_CODE.JPN);
+//  console.log('ランキングの取得が完了しました');
+//  console.log(ranking);
+//}
+//requestRankingExample()
 </script>
 
 <template>
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" />
+	<NavBar/>
+	<RouterView />
 </template>
 
 <style scoped>
