@@ -10,8 +10,10 @@
     "generate": "npx openapi-typescript ../docs/specification.yml -o ./src/schema.d.ts"
   },
   "dependencies": {
+    "pinia": "^2.2.8",
     "uuid": "^11.0.3",
-    "vue": "^3.5.12"
+    "vue": "^3.5.12",
+    "vue-router": "^4.5.0"
   },
   "devDependencies": {
     "@mswjs/data": "^0.16.2",
@@ -19,6 +21,7 @@
     "msw": "^2.6.5",
     "typescript": "~5.6.2",
     "vite": "^5.4.10",
+    "vitest": "^2.1.5",
     "vue-tsc": "^2.1.8"
   },
   "msw": {

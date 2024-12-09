@@ -1,11 +1,18 @@
 from api import db
 
 class Recipe(db.Model):
-    __tablename__ = 'users'
+    __tablename__ = 'recipes'
 
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(80), unique=True, nullable=False)
-    description = db.Column(db.String(80), unique=False, nullable=True)
+    recipe_id = db.Column(db.Integer, primary_key=True)
+    recipe_name = db.Column(db.String(255), nullable=False)
+    thumbnail = db.Column(db.String(255), nullable=True)
+    instructions = db.Column(db.Text, nullable=False)
+
+    # 中間テーブル（ingredient_quantities）とのリレーション
+    ingredient_quantities = db.relationship('IngredientQuantity', back_populates='recipe')
+
+    # レシピに関連するいいねを取得
+    likes = db.relationship('Like', backref='recipe', lazy=True)
 
     def __repr__(self):
-        return f"<Recipe {self.title}, {self.description}>"
+        return f"<Recipe {self.recipe_name}>"
