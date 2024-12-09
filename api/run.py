@@ -50,6 +50,7 @@ def get_recipe_ranking():
     try:
         # ヘッダーから国情報を取得
         country = request.headers.get('Country')  # Countryヘッダーを取得
+        # country = "Japan"
         if not country:
             return jsonify({"error": "Country header is required"}), 400
         
@@ -67,7 +68,13 @@ def get_recipe_ranking():
                 "recipe_id": recipe.recipe_id,
                 "recipe_name": recipe.recipe_name,
                 "thumbnail": recipe.thumbnail,
-                "instructions": recipe.instructions
+                "instructions": recipe.instructions,
+                'likes': [
+                    {
+                        'like_count': like.like_count
+                    }
+                    for like in recipe.likes if like.country == country
+                ]
             }
             for recipe in recipes
         ]
