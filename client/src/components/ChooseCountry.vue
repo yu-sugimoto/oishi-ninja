@@ -44,6 +44,7 @@ watch(selectedCountry, (newCountry) => {
 	font-weight: bold;
 	text-align: center;
 	background-color: var(--selectbox-color);
+	border-radius: 10px;
 }
 </style>
 
