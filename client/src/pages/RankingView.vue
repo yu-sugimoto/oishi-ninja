@@ -39,12 +39,12 @@ onMounted(fetchRecipeRanking)
 		<RouterLink to="/">国選択に戻る</RouterLink>
 
 		<div v-if="rankings?.recipes?.length">
-			<div v-for="(recipe, index) in rankings?.recipes">
+			<div class="recipe-cards" v-for="(recipe, index) in rankings?.recipes" :key="recipe.id">
 					<RecipeCard 
 						@recipe-img-click="registerRecipePinia(recipe)"
 						link-page-name="recipe"
 						:link-id="recipe?.id"
-						:ranking-num="index"
+						:ranking-index="index"
 						:image-path="recipe?.thumbnail"
 						:title="recipe?.name"
 					/>
@@ -54,14 +54,9 @@ onMounted(fetchRecipeRanking)
 </template>
 
 <style lang="css" scoped>
-.ranking0 {
-	background-color: red;
-}
-.ranking1 {
-	background-color: blue;
-}
-.ranking2 {
-	background-color: yellow;
+.recipe-cards {
+	display: flex;
+	justify-content: center;
 }
 </style>
 
