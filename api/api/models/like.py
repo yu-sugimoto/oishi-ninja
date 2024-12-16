@@ -7,7 +7,6 @@ class Like(db.Model):
     recipe_id = db.Column(db.Integer, db.ForeignKey('recipes.recipe_id'), nullable=False)
     country = db.Column(db.String(255), nullable=False)
     like_count = db.Column(db.Integer, default=0)
-    dislike_count = db.Column(db.Integer, default=0)
     created_at = db.Column(db.DateTime, nullable=False)
 
     def __repr__(self):
