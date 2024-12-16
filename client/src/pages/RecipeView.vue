@@ -4,6 +4,7 @@ import { onMounted, ref } from "vue"
 import type { Ref } from "vue"
 import { useRecipeState } from "../store/useRecipe.ts"
 import GoodButton from '../components/GoodButton.vue'
+import ArrowLink from '../components/ArrowLink.vue'
 
 const store = useRecipeState()
 const recipe: Ref<components["schemas"]["Recipe"] | ""> = ref("")
@@ -23,7 +24,10 @@ const handleGoodButtonClick = () => {
 </script>
 <template>
 	<main>
-		<RouterLink to="/ranking">Go to Ranking</RouterLink>
+		<ArrowLink
+			to="/ranking"
+			message="ランキングページに戻る"
+		/>
 		<div class="recipe-page-center" v-if="recipe">
 				<div class="recipe-page__title">
 					<div class="recipe-page__name">
