@@ -2,44 +2,74 @@ import * as cdk from 'aws-cdk-lib';
 import * as iam from 'aws-cdk-lib/aws-iam';
 import { Stack, StackProps } from 'aws-cdk-lib';
 import * as s3 from 'aws-cdk-lib/aws-s3';
-import * as s3Deployment from 'aws-cdk-lib/aws-s3-deployment';
 import * as route53 from 'aws-cdk-lib/aws-route53';
 import * as route53Targets from 'aws-cdk-lib/aws-route53-targets';
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as cloudfrontOrigins from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as certificatemanager from 'aws-cdk-lib/aws-certificatemanager';
-import { buildIdCreator, createDomainName } from './utilities';
+import * as ssm from 'aws-cdk-lib/aws-ssm';
+
+import { AwsCustomResource, AwsCustomResourcePolicy } from 'aws-cdk-lib/custom-resources';
+
+import { createDomainName } from './utilities';
+import { SsmParameterReader } from './ssm-parameter-reader';
+import { ErrorResponse } from 'aws-cdk-lib/aws-cloudfront';
 
 interface ClientStaticSiteStackProps extends StackProps {
   appName: string;
-  apiUrl: string;
   domainName: string;
   envName?: string;
-  certificateArn: string;
+  createId: (name: string) => string;
+  createBucketName: (bucketKey: string) => string;
+  createSsmParameterName: (name: string) => string;
 }
 
 export class ClientStaticSiteStack extends Stack {
   constructor(scope: cdk.App, id: string, props: ClientStaticSiteStackProps) {
     super(scope, id, props);
 
+    const _id = props.createId;
+    const ssmParameterName = props.createSsmParameterName;
+
     const domainName = props.domainName;
     const siteDomain = createDomainName(props.domainName, '', props.envName);
-    const _id = buildIdCreator(props.appName, props.envName);
 
-    const hostedZone = route53.HostedZone.fromLookup(this, _id('HostedZone'), { domainName });
+    const hostedZone = route53.HostedZone.fromLookup(this, _id('ClientStaticSiteHostedZone'), {
+      domainName
+    });
 
     // S3 バケット作成
     const staticSiteBucket = new s3.Bucket(this, _id('ClientStaticSiteBucket'), {
+      bucketName: props.createBucketName('client-static-site'),
       blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
       enforceSSL: true,
+      versioned: false,
     });
 
-    // 証明書をARNから取得
-    const certificate = certificatemanager.Certificate.fromCertificateArn(
-      this,
-      _id('ClientStaticSiteCertificate'),
-      props.certificateArn
+    const certificateArnParameterName = ssmParameterName('ClientStaticSiteCertificateArn');
+
+    const certificateArnReader = new SsmParameterReader(this, 'CertificateArnParameter', {
+      parameterName: certificateArnParameterName,
+      region: 'us-east-1',
+    });
+
+    const certificateArn = certificateArnReader.stringValue;
+
+    const certificate = certificatemanager.Certificate.fromCertificateArn(this, _id('ClientStaticSiteCertificate'),
+      certificateArn
     );
+
+    // SPA 用のリライトの設定
+    function errorResponse (httpStatus: number): ErrorResponse {
+      return {
+        httpStatus,
+        responseHttpStatus: 200,
+        responsePagePath: '/index.html',
+        ttl: cdk.Duration.days(1),
+      }
+    }
 
     // CloudFront Distribution 作成
     const distribution = new cloudfront.Distribution(this, _id('ClientStaticSiteDistribution'), {
@@ -51,12 +81,8 @@ export class ClientStaticSiteStack extends Stack {
       certificate,
       defaultRootObject: 'index.html',
       errorResponses: [
-        {
-          httpStatus: 404,
-          responseHttpStatus: 200,
-          responsePagePath: '/index.html', // 404をindex.htmlにフォールバック
-          ttl: cdk.Duration.days(1),
-        },
+        errorResponse(404),
+        errorResponse(403)
       ],
     });
 

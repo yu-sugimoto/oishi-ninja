@@ -1,55 +1,87 @@
 # Oishi-Ninja API
 
+Oishi Ninja の API
+
 # 環境構築
 
-## [Python](https://www.python.org/)
+| ツール | バージョン |
+| --- | --- |
+| Python | 3.13.x |
+| Poetry | 1.8.x |
+| PostgreSQL | 14.x |
 
-```
-% python --version
+# セットアップ
+
+## Python と関連するツールの準備
+
+### Python
+
+```bash
+$ python --version
 Python 3.13.0
 ```
 
-## [Poetry](https://python-poetry.org/)
+### Poetry
 
-```
-% poetry --version
+```bash
+$ poetry --version
 Poetry (version 1.8.4)
 ```
 
-## [PostgreSQL](https://www.postgresql.org/)
+### 依存パッケージのインストール
 
+```bash
+$ poetry install
 ```
-% psql --version
+
+## データベースの準備
+
+### PostgreSQL
+
+```bash
+$ psql --version
 psql (PostgreSQL) 14.14
 ```
 
-# 環境変数
+### データベースの作成
 
-| 環境変数名 | 説明 |
-| --- | --- |
-| PORT | ポート番号 |
-| DATABASE_URL | データベースのURL |
-
-```
-PORT=4000
-DATABASE_URL=postgresql://<ユーザー名>:<パスワード>@<ホスト名>/<データベース名>
+```bash
+$ psql -U postgres
+postgres=# CREATE DATABASE oishi_ninja;
+postgres=# CREATE USER oishi_ninja WITH PASSWORD 'oishi_ninja';
+postgres=# GRANT ALL PRIVILEGES ON DATABASE oishi_ninja TO oishi_ninja;
 ```
 
-# 依存パッケージのインストール
+### データベースの初期化
+
+```bash
+$ poetry run db-upgrade
+```
+
+## 環境変数
+
+`.env` ファイルを作成し、以下の内容を記述する。
 
 ```
-% poetry install
+# app
+APP_PORT=4000
+FLASK_ENV=development
+
+# db
+DB_HOST=db
+DB_PORT=5432
+DB_NAME=oishi_ninja
+DB_USER=oishi_ninja
+DB_PASSWORD=oishi_ninja
+```
+
+## 起動
+
+```bash
+$ poetry run start
 ```
 
 # データベースのマイグレーション
-
-## マイグレーションの反映
-
-```
-% poetry run flask --app api:create_app db upgrade
-```
-
-poetry run flask　--app api:db init
 
 ## マイグレーションの追加
 
@@ -57,12 +89,4 @@ poetry run flask　--app api:db init
 
 ```
 % poetry run flask --app api:create_app db migrate -m "<メッセージ>"
-```
-
-追加後は、マイグレーションの反映を行う。
-
-# 起動
-
-```
-% poetry run flask --app api run
 ```

@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue"
 import { useCountryStore } from "../store/useCountryStore.ts"
-import { countryCodeT } from "../type/countryType.ts";
-import { getRecipeRankingByCountryCode } from "../services/api";
+import { countryCodeT } from "../type/countryType.ts"
+import { getRecipeRankingByCountryCode } from "../services/api"
+import RecipeCard from "../components/RecipeCard.vue"
 import type { components } from "../schema.d.ts"
 
 // TODO: devide component just check move
@@ -38,34 +39,24 @@ onMounted(fetchRecipeRanking)
 		<RouterLink to="/">国選択に戻る</RouterLink>
 
 		<div v-if="rankings?.recipes?.length">
-			<div v-for="(recipe, index) in rankings?.recipes">
-				<div v-if="index < 3" :class="'ranking' + index">
-					This is ranking {{ index }}
-				</div>
-				<img :src="recipe?.thumbnail" />
-				<RouterLink 
-					@click="registerRecipePinia(recipe)"
-					:to="{
-						name: 'recipe', 
-						params: { id: recipe?.id }
-					}"
-				>
-					<p>{{ recipe?.name }}</p>
-				</RouterLink>
+			<div class="recipe-cards" v-for="(recipe, index) in rankings?.recipes" :key="recipe.id">
+					<RecipeCard 
+						@recipe-img-click="registerRecipePinia(recipe)"
+						link-page-name="recipe"
+						:link-id="recipe?.id"
+						:ranking-index="index"
+						:image-path="recipe?.thumbnail"
+						:title="recipe?.name"
+					/>
 			</div>
 		</div>
 	</main>
 </template>
 
 <style lang="css" scoped>
-.ranking0 {
-	background-color: red;
-}
-.ranking1 {
-	background-color: blue;
-}
-.ranking2 {
-	background-color: yellow;
+.recipe-cards {
+	display: flex;
+	justify-content: center;
 }
 </style>
 
