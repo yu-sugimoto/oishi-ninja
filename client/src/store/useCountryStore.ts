@@ -1,6 +1,5 @@
 import { defineStore } from 'pinia'
 import { ref, Ref } from 'vue'
-import { readonly } from 'vue'
 import type { countryCodeT } from '../type/countryType.ts'
 
 export const useCountryStore = defineStore('country', () => {
@@ -15,4 +14,3 @@ export const useCountryStore = defineStore('country', () => {
 	}
 	return { countryName, useSetCountry, getCountryName }
 })
-
