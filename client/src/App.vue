@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import NavBar from './components/NavBar.vue'
-import { COUNTRY_CODE } from './constants/country';
-import { getRecipeRankingByCountryCode } from './services/api';
 
 //async function requestRankingExample () {
 //  console.log('ランキングの取得を開始します');

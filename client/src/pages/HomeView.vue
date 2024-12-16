@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { ref } from "vue"
-import { useCountryStore } from './stores/useCountryStore.ts';
 import ChooseCountry from "../components/ChooseCountry.vue";
 
 </script>
