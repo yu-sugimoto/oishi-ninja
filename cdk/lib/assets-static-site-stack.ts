@@ -7,13 +7,17 @@ import * as route53Targets from 'aws-cdk-lib/aws-route53-targets';
 import * as cloudfront from 'aws-cdk-lib/aws-cloudfront';
 import * as cloudfrontOrigins from 'aws-cdk-lib/aws-cloudfront-origins';
 import * as certificatemanager from 'aws-cdk-lib/aws-certificatemanager';
-import { buildIdCreator, createDomainName } from './utilities';
+
+import { createDomainName } from './utilities';
+import { SsmParameterReader } from './ssm-parameter-reader';
 
 interface AssetsStaticSiteStackProps extends StackProps {
   appName: string;
   domainName: string;
   envName: string;
-  certificateArn: string;
+  createId: (name: string) => string;
+  createBucketName: (bucketKey: string) => string;
+  createSsmParameterName: (name: string) => string;
 }
 
 export class AssetsStaticSiteStack extends Stack {
@@ -23,27 +27,36 @@ export class AssetsStaticSiteStack extends Stack {
   constructor(scope: cdk.App, id: string, props: AssetsStaticSiteStackProps) {
     super(scope, id, props);
 
-    const _id = buildIdCreator(props.appName, props.envName);
+    const _id = props.createId;
+    const ssmParameterName = props.createSsmParameterName;
+
     const domainName = props.domainName;
     const siteDomain = createDomainName(domainName, 'assets', props.envName);
 
-    const hostedZone = route53.HostedZone.fromLookup(this, _id('HostedZone'), { domainName });
+    const hostedZone = route53.HostedZone.fromLookup(this, _id('AssetsStaticSiteHostedZone'), { domainName });
 
-    // S3 バケット作成
-    const staticSiteBucket = new s3.Bucket(
-      this,
-      _id('AssetsStaticSiteBucket'),
-      {
-        blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
-        enforceSSL: true,
-      }
-    );
+    const staticSiteBucket = new s3.Bucket(this, _id('AssetsStaticSiteBucket'), {
+      bucketName: props.createBucketName('assets-static-site'),
+      blockPublicAccess: s3.BlockPublicAccess.BLOCK_ALL,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      autoDeleteObjects: true,
+      enforceSSL: true,
+      versioned: false,
+    });
 
-    // 証明書をARNから取得
+    const certificateArnParameterName = ssmParameterName('AssetsStaticSiteCertificateArn');
+
+    const certificateArnReader = new SsmParameterReader(this, 'CertificateArnParameter', {
+      parameterName: certificateArnParameterName,
+      region: 'us-east-1',
+    });
+
+    const certificateArn = certificateArnReader.stringValue;
+
     const certificate = certificatemanager.Certificate.fromCertificateArn(
       this,
       'AssetsStaticSiteCertificate',
-      props.certificateArn
+      certificateArn
     );
 
     // OAC を作成
@@ -87,7 +100,6 @@ export class AssetsStaticSiteStack extends Stack {
       },
     }));
 
-    // Route 53 に A レコードを追加
     new route53.ARecord(this, _id('AssetsStaticSiteAliasRecord'), {
       zone: hostedZone,
       recordName: siteDomain,

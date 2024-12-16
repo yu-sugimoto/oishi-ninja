@@ -1,35 +1,54 @@
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  nginx:
+    image: nginx:latest
+    container_name: nginx
     ports:
-      - "${PORT}:${PORT}"  # アプリケーションのポートを環境変数から設定
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./certs:/etc/nginx/certs:ro
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - app
+    networks:
+      - app_network
+
+  app:
+    image: python:3.13-slim
+    container_name: app
+    build:
+      dockerfile: docker/app/Dockerfile
+    ports:
+      - "4000:4000"
     environment:
-      - FLASK_ENV=${FLASK_ENV}
-      - PORT=${PORT}
-      - DB_HOST=${DB_HOST}
+      - DB_HOST=db
       - DB_PORT=${DB_PORT}
-      - DB_NAME=${DB_NAME}
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
+      - DB_NAME=${DB_NAME}
+      - APP_PORT=${APP_PORT}
+      - FLASK_ENV=${FLASK_ENV}
     depends_on:
       - db
-    command: >
-      bash -c "
-              poetry install &&
-              poetry run db-upgrade &&
-              poetry run start"
+    networks:
+      - app_network
+
   db:
-    image: postgres:14
-    environment:
-      POSTGRES_USER: ${DB_USER}      # 環境変数を使用
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
-    ports:
-      - "5432:5432"
+    image: postgres:16
+    container_name: db
     volumes:
       - db_data:/var/lib/postgresql/data
+      - ./docker/db/docker-entrypoint-initdb.d/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    networks:
+      - app_network
 
 volumes:
   db_data:
+
+networks:
+  app_network:
+    driver: bridge

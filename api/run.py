@@ -1,14 +1,14 @@
-from gunicorn.app.base import BaseApplication
 from flask import jsonify, request
 from api import create_app, db
-from api.models import Recipe, Ingredient, IngredientQuantity, Like
 from dotenv import load_dotenv
+
+from api.config import get_gunicorn_options
+from api.models import Recipe, Ingredient, IngredientQuantity, Like
+from api.services.gunicorn_app import GunicornApp
 
 load_dotenv()
 
 app = create_app()
-
-# ルーティング設定
 
 # ルーティングテスト
 @app.route('/', methods=['GET'])
@@ -78,37 +78,10 @@ def get_recipe_ranking():
         # サーバーエラーの場合
         return jsonify({"error": str(e)}), 500
 
-class GunicornApp(BaseApplication):
-    # Gunicorn をカスタマイズして起動するためのクラス
-    def __init__(self, app, options=None):
-        self.app = app
-        self.options = options or {}
-        super().__init__()
-
-    def load_config(self):
-        # Gunicorn の設定を適用
-        for key, value in self.options.items():
-            self.cfg.set(key.lower(), value)
-
-    def load(self):
-        # Flask アプリケーションをロード
-        return self.app
-
 # 起動
 def start_app():
-    # Gunicorn を使ってアプリケーションを起動
-    import os
-    port = int(os.getenv("PORT", 4000))
-    workers = int(os.getenv("GUNICORN_WORKERS", 2))  # 環境変数からワーカー数を設定
-    timeout = int(os.getenv("GUNICORN_TIMEOUT", 120))  # タイムアウト設定
-
-    options = {
-        "bind": f"0.0.0.0:{port}",
-        "workers": workers,
-        "timeout": timeout,
-    }
+    options = get_gunicorn_options()
     GunicornApp(app, options).run()
-
 
 if __name__ == "__main__":
     start_app()
