@@ -54,6 +54,10 @@ const handleGoodButtonClick = () => {
 					</div>
 				</div>
 		</div>
+		<ArrowLink
+			to="/ranking"
+			message="ランキングページに戻る"
+		/>
 	</main>
 </template>
 

@@ -53,6 +53,10 @@ onMounted(fetchRecipeRanking)
 					/>
 			</div>
 		</div>
+		<ArrowLink 
+			to="/"
+			message="国選択に戻る"
+		/>
 	</main>
 </template>
 
