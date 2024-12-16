@@ -1,19 +1,46 @@
 <script setup lang="ts">
 import { ref } from "vue"
+import { useCountryStore } from './stores/useCountryStore.ts';
+import ChooseCountry from "../components/ChooseCountry.vue";
 
-const count = ref(0)
-const increment = () => {
-	count.value++
-}
 </script>
 <template>
 	<main>
-	<h1>HomeView.vue</h1>
-	<button>
-		<RouterLink to="/ranking">Go to Ranking</RouterLink>
-	</button>
-		<button @click="increment">Push!!</button>
-		<h2>{{ count }}</h2>
+		<h1 class="title">
+			あなたの好きな<br/>
+			日本食が見つかる
+		</h1>
+	<ChooseCountry />
+	<div class="router-link-wrapper">
+		<RouterLink class="go-to-ranking-link" to="/ranking">Go Recipe!</RouterLink>
+	</div>
 	</main>
 </template>
 
+<style lang="css" scoped>
+.title {
+	font-size: 32px;
+	font-weight: bold;
+	color: #FF5811;
+	text-align: center;
+}
+.router-link-wrapper {
+	display: flex;
+	justify-content: center;
+	margin-top: 20px;
+}
+.go-to-ranking-link {
+	width: 178px;
+	height: 56px;
+	background-color: var(--theme-color);
+	border-radius: 10px;
+	font-size: 24px;
+	font-weight: bold;
+	text-decoration: none;
+	color: black;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+</style>

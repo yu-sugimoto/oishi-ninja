@@ -7,7 +7,11 @@ import RankingView from './pages/RankingView.vue'
 const routes = [
   { path: '/', component: HomeView },
   { path: '/ranking', component: RankingView },
-  { path: '/recipe', component: RecipeView },
+  { 
+		path: '/recipe/:id', 
+		name: 'recipe',
+		component: RecipeView, 
+	},
 ]
 
 const router = createRouter({

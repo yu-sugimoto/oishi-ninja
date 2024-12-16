@@ -1,21 +1,62 @@
 <script setup lang="ts">
-import { ref } from "vue"
+import { ref, onMounted } from "vue"
+import { useCountryStore } from "../store/useCountryStore.ts"
+import { countryCodeT } from "../type/countryType.ts"
+import { getRecipeRankingByCountryCode } from "../services/api"
+import RecipeCard from "../components/RecipeCard.vue"
+import type { components } from "../schema.d.ts"
 
-const count = ref(0)
-const increment = () => {
-	count.value++
+// TODO: devide component just check move
+import { useRecipeState } from '../store/useRecipe.ts'
+const { setRecipe } = useRecipeState()
+const registerRecipePinia = (recipe: components["schemas"]["Recipe"]) => {
+	console.log(recipe)
+	setRecipe(recipe)
 }
+
+const store = useCountryStore()
+const rankings = ref<components["schemas"]["RecipeRankingBody"] | null>()
+const currentCountry: countryCodeT | "" = store.getCountryName()
+
+const fetchRecipeRanking = async () => {
+	try {
+		if (currentCountry) {
+			rankings.value = await getRecipeRankingByCountryCode(currentCountry)
+		}
+	}
+	catch (error) {
+		console.error("Failed to fetch", error);
+		rankings.value = null;
+	}
+}
+onMounted(fetchRecipeRanking)
+
 </script>
+
 <template>
 	<main>
 		<h1>RankingView.vue</h1>
 		<RouterLink to="/">国選択に戻る</RouterLink>
-		<button @click="increment">Push!!</button>
-		<h2>{{ count }}</h2>
-		<button>
-			<RouterLink to="/recipe">Go to Recipe</RouterLink>
-		</button>
-		<RouterView />
+
+		<div v-if="rankings?.recipes?.length">
+			<div class="recipe-cards" v-for="(recipe, index) in rankings?.recipes" :key="recipe.id">
+					<RecipeCard 
+						@recipe-img-click="registerRecipePinia(recipe)"
+						link-page-name="recipe"
+						:link-id="recipe?.id"
+						:ranking-index="index"
+						:image-path="recipe?.thumbnail"
+						:title="recipe?.name"
+					/>
+			</div>
+		</div>
 	</main>
 </template>
+
+<style lang="css" scoped>
+.recipe-cards {
+	display: flex;
+	justify-content: center;
+}
+</style>
 
