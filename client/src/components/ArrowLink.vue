@@ -31,6 +31,9 @@ const props = defineProps<Props>();
 	color: black;
 	font-size: 16px;
 }
+.link-container:hover {
+	text-decoration: underline var(--theme-color);
+}
 .triangle {
   height: 20px;
   aspect-ratio: cos(30deg);
