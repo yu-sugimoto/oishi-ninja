@@ -6,6 +6,7 @@ import { useRecipeState } from "../store/useRecipe.ts"
 import { useCountryStore } from "../store/useCountryStore.ts"
 import GoodButton from '../components/GoodButton.vue'
 import ArrowLink from '../components/ArrowLink.vue'
+import RecipeInstructions from '../components/RecipeInstructions.vue'
 import { likeRecipeByCountryAndId, unlikeRecipeByCountryAndId } from "../services/api.ts"
 
 const recipeStore = useRecipeState()
@@ -56,9 +57,9 @@ onMounted(setRecipeToRef)
 				<div class="recipe-page__keyvisual">
 					<img :src="recipe.thumbnail" alt="" width="343px" height="243px">
 				</div>
-				<div class="recipe-page__instructions">
-					{{ recipe.instructions }}
-				</div>
+				<RecipeInstructions 
+					:instructions="recipe?.instructions"
+				/>
 
 				<div class="recipe-page__ingredients">
 					<div v-for="(ingredientQuantity, index) in recipe.ingredientQuantities" :key="index">
@@ -92,13 +93,10 @@ onMounted(setRecipeToRef)
 	font-size: 32px;
 }
 .recipe-page__keyvisual {
-	margin: 0 auto;
+	margin: 30px auto;
 	text-align: center;
 }
 .recipe-page__instructions {
-	font-size: 16px;
-}
-.recipe-page__ingredients {
 	font-size: 16px;
 }
 .arrow-link-top {
