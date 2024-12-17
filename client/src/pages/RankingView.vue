@@ -39,6 +39,7 @@ onMounted(fetchRecipeRanking)
 		<ArrowLink 
 			to="/"
 			message="国選択に戻る"
+			class="arrowlink-top"
 		/>
 
 		<div v-if="rankings?.recipes?.length">
@@ -56,6 +57,7 @@ onMounted(fetchRecipeRanking)
 		<ArrowLink 
 			to="/"
 			message="国選択に戻る"
+			class="arrowlink-bottom"
 		/>
 	</main>
 </template>
@@ -64,6 +66,17 @@ onMounted(fetchRecipeRanking)
 .recipe-cards {
 	display: flex;
 	justify-content: center;
+}
+.arrowlink-top {
+	margin-top: 20px;
+	margin-right: 10px;
+	margin-left: 10px;
+}
+.arrowlink-bottom {
+	margin-top: 20px;
+	margin-right: 10px;
+	margin-bottom: 20px;
+	margin-left: 10px;
 }
 </style>
 

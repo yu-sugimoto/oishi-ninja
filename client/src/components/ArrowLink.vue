@@ -39,11 +39,7 @@ const props = defineProps<Props>();
   aspect-ratio: cos(30deg);
   clip-path: polygon(100% 0,0 50%,100% 100%);
 	background-color: var(--theme-color);
-
-	margin-top: 20px;
 	margin-right: 10px;
-	margin-bottom: 20px;
-	margin-left: 10px;
 }
 
 </style>

@@ -4,6 +4,8 @@
 	--ranking-first-color: #FFF15B;
 	--ranking-second-color: #D9D9D9;
 	--ranking-third-color: #DD6438;
+	--color-light-gray: #D4D4D4; 
+	--color-pink: #E0548E;
 	box-sizing: border-box;
 	width: 411px;
 	margin: 0 auto;

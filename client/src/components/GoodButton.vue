@@ -1,38 +1,55 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const isClicked = ref(false)
-const count = ref(0)
+interface Props {
+	likeCount: number,
+}
 
 interface Emits {
-	(event: 'good-button-click'): void
+	(event: 'good-button-click', status: 'like' | 'unlike'): void
 }
+
+const props = defineProps<Props>()
 const emits = defineEmits<Emits>()
+
+const isClicked = ref(false)
+const likeCountRef = ref(props.likeCount)
 
 //TODO: 後で分ける
 const handleButtonClick = () => {
 	isClicked.value = !isClicked.value
 	if (isClicked.value === true) {
-		count.value++
+		likeCountRef.value++
+		emits('good-button-click', 'like')
 	} else {
-		count.value--
+		likeCountRef.value--
+		emits('good-button-click', 'unlike')
 	}
-	emits('good-button-click')
 }
 </script>
 
 <template>
-	<button
-		class="button-css-reset heart-button"
-		:class="{ clicked: isClicked }"
-		@click="handleButtonClick"
-	>
-		<div class="heart-mark" :class="{ clicked: isClicked }"></div>
-		<span class="heart-count">{{ count }}</span>
-	</button>
+		<button
+			class="button-css-reset heart-button"
+			:class="{ clicked: isClicked }"
+			@click="handleButtonClick"
+		>
+			<div class="heart-mark" :class="{ clicked: isClicked }"></div>
+		</button>
+		<div 
+			class="heart-count"
+			:class="{ clicked: isClicked }">
+			{{ likeCountRef }}
+		</div>
 </template>
 
 <style lang="css" scoped>
+.heart-button-wrapper {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 .button-css-reset {
 	display: flex;
   padding: 0;
@@ -44,19 +61,24 @@ const handleButtonClick = () => {
   cursor: pointer;
 }
 
-/* デフォルト色: D4D4D4 */
 .heart-button {
 	margin-top: 4px;
-  width: 35px;  
-  height: 35px; 
+  width: 35px;
+  height: 35px;
   position: relative;
-  color: #D4D4D4; /* デフォルト色heart-button自体に付与 */
-  transition: color 0.3s ease; /* 色変化にアニメーション */
+  color: var(--color-light-gray);
+  transition: color 0.3s ease;
 }
 
 /* isClickedがtrueのときピンク色に */
-.heart-button.clicked {
-  color: #E0548E;
+.heart-button.clicked,
+.heart-count.clicked {
+  color: var(--color-pink);
+}
+.heart-count {
+	font-size: 12px;
+  color: var(--color-light-gray);
+	text-align: center;
 }
 
 .heart-button::before,
@@ -78,12 +100,5 @@ const handleButtonClick = () => {
 .heart-button::after {
   transform: rotate(45deg);
   right: 14%;
-}
-
-.heart-count {
-	position: absolute;
-	top: 27px;
-	left: 13px;
-	font-size: 16px;
 }
 </style>
