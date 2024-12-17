@@ -3,30 +3,43 @@ import type { components } from "../schema.d.ts"
 import { onMounted, ref } from "vue"
 import type { Ref } from "vue"
 import { useRecipeState } from "../store/useRecipe.ts"
+import { useCountryStore } from "../store/useCountryStore.ts"
 import GoodButton from '../components/GoodButton.vue'
 import ArrowLink from '../components/ArrowLink.vue'
+import { likeRecipeByCountryAndId, unlikeRecipeByCountryAndId } from "../services/api.ts"
 
-const store = useRecipeState()
+const recipeStore = useRecipeState()
+const countryStore = useCountryStore()
+
+const countryName = countryStore.countryName
 const recipe: Ref<components["schemas"]["Recipe"] | ""> = ref("")
 
 const setRecipeToRef = () => {
-	const storedRecipe = store.getRecipe().value
+	const storedRecipe = recipeStore.getRecipe().value
 	if (storedRecipe !== "") {
 		recipe.value =  storedRecipe as components["schemas"]["Recipe"]
 	}
 }
 
-onMounted(setRecipeToRef)
-
-const handleGoodButtonClick = () => {
-
+const handleGoodButtonClick = (status: string) => {
+	if (recipe.value) {
+		if (status === 'like') {
+			likeRecipeByCountryAndId(countryName, recipe.value.id)
+		}
+		else if (status === 'unlike') {
+			unlikeRecipeByCountryAndId(countryName, recipe.value.id)
+		}
+	}
 }
+
+onMounted(setRecipeToRef)
 </script>
 <template>
 	<main>
 		<ArrowLink
 			to="/ranking"
 			message="ランキングページに戻る"
+			class="arrow-link-top"
 		/>
 		<div class="recipe-page-center" v-if="recipe">
 				<div class="recipe-page__title">
@@ -35,7 +48,8 @@ const handleGoodButtonClick = () => {
 					</div>
 					<div>
 						<GoodButton
-							@good-button-click="handleGoodButtonClick()"
+							:likeCount="recipe.likes"
+							@good-button-click="handleGoodButtonClick"
 						/>
 					</div>
 				</div>
@@ -57,6 +71,7 @@ const handleGoodButtonClick = () => {
 		<ArrowLink
 			to="/ranking"
 			message="ランキングページに戻る"
+			class="arrow-link-bottom"
 		/>
 	</main>
 </template>
@@ -85,6 +100,13 @@ const handleGoodButtonClick = () => {
 }
 .recipe-page__ingredients {
 	font-size: 16px;
+}
+.arrow-link-top {
+	margin-top: 20px;
+}
+.arrow-link-bottom {
+	margin-top: 50px;
+	margin-bottom: 50px;
 }
 </style>
 
