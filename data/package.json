@@ -1,0 +1,18 @@
+{
+  "name": "oishi-ninja-data",
+  "version": "1.0.0",
+  "description": "ハッカソンの発表のために、データを作成する。",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "openai": "^4.76.3",
+    "uuid": "^11.0.3"
+  },
+  "type": "module"
+}
