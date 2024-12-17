@@ -166,9 +166,15 @@ with app.app_context():
         for recipe in [recipe1, recipe2, recipe3, recipe4, recipe5]:
           for country in countries:
             like_count = random.randint(0, 100)
-            dislike_count = random.randint(0, 10)
             created_at = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            likes.append(Like(recipe_id=recipe.recipe_id, country=country, like_count=like_count, dislike_count=dislike_count, created_at=created_at))
+            likes.append(
+              Like(
+                recipe_id=recipe.recipe_id,
+                country=country,
+                like_count=like_count,
+                created_at=created_at
+              )
+            )
 
         db.session.add_all(likes)
 
