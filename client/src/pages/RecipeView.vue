@@ -7,6 +7,8 @@ import { useCountryStore } from "../store/useCountryStore.ts"
 import GoodButton from '../components/GoodButton.vue'
 import ArrowLink from '../components/ArrowLink.vue'
 import RecipeInstructions from '../components/RecipeInstructions.vue'
+import RecipeIngredient from '../components/RecipeIngredient.vue'
+
 import { likeRecipeByCountryAndId, unlikeRecipeByCountryAndId } from "../services/api.ts"
 
 const recipeStore = useRecipeState()
@@ -60,14 +62,11 @@ onMounted(setRecipeToRef)
 				<RecipeInstructions 
 					:instructions="recipe?.instructions"
 				/>
+				<RecipeIngredient
+					:ingredientQuantities="recipe?.ingredientQuantities"
+					class="recipe-page__ingredient"
+				/>
 
-				<div class="recipe-page__ingredients">
-					<div v-for="(ingredientQuantity, index) in recipe.ingredientQuantities" :key="index">
-						<p>
-							{{ ingredientQuantity.ingredient.name }} : {{ ingredientQuantity.quantity }}
-						</p>
-					</div>
-				</div>
 		</div>
 		<ArrowLink
 			to="/ranking"
@@ -86,9 +85,9 @@ onMounted(setRecipeToRef)
 .recipe-page__title {
 	display: flex;
 	justify-content: space-between;
-	margin-top: 20px;
+	margin-top: 35px;
+	margin-left: 10px;
 	margin-bottom: 20px;
-	margin-left: 25px;
 	margin-right: 25px;
 	font-size: 32px;
 }
@@ -96,8 +95,9 @@ onMounted(setRecipeToRef)
 	margin: 30px auto;
 	text-align: center;
 }
-.recipe-page__instructions {
-	font-size: 16px;
+.recipe-page__ingredient {
+	margin-top: 40px;
+	margin-bottom: 20px;
 }
 .arrow-link-top {
 	margin-top: 20px;
