@@ -1,0 +1,43 @@
+{
+  "id": "a1db1e1a-a557-4e44-a3eb-9ae1b9bd4653",
+  "recipe_name": "焼きそば",
+  "instructions": "# 焼きそば\n\n## 手順\n\n### 1. 材料を準備する\n- 玉ねぎ、にんじん、ねぎはみじん切りにし、キャベツはざく切りにする。\n- もやしは洗って水気を切り、豚肉は一口大に切る。\n\n### 2. 野菜と豚肉を炒める\n- フライパンに油を熱し、豚肉を炒める。色が変わったら一度取り出す。\n- 同じフライパンで玉ねぎ、にんじん、キャベツを炒め、軟らかくなったらもやしを加えて炒め続ける。\n\n### 3. 豚肉を戻し、調味料で味付けする\n- 炒めた野菜に豚肉を戻し、醤油、少々の塩、こしょうを加えて全体をよく混ぜる。\n\n### 4. 仕上げ\n- 最後にみじん切りにしたねぎを振りかけて完成。",
+  "ingredients": [
+    {
+      "ingredientName": "玉ねぎ",
+      "quantity": "1個"
+    },
+    {
+      "ingredientName": "にんじん",
+      "quantity": "1本"
+    },
+    {
+      "ingredientName": "キャベツ",
+      "quantity": "1/4個"
+    },
+    {
+      "ingredientName": "もやし",
+      "quantity": "1袋"
+    },
+    {
+      "ingredientName": "ねぎ",
+      "quantity": "1本"
+    },
+    {
+      "ingredientName": "豚肉",
+      "quantity": "200g"
+    },
+    {
+      "ingredientName": "醤油",
+      "quantity": "大さじ2"
+    },
+    {
+      "ingredientName": "塩",
+      "quantity": "少々"
+    },
+    {
+      "ingredientName": "こしょう",
+      "quantity": "少々"
+    }
+  ]
+}

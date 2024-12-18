@@ -1,0 +1,83 @@
+{
+  "id": "f9aedf14-accc-47f9-8c11-e782e0990127",
+  "recipe_name": "野菜炒め",
+  "instructions": "# 野菜炒めの作り方\n\n## 1. 材料を準備する\nじゃがいも、玉ねぎ、にんじん、大根、トマト、ブロッコリー、キャベツ、きゅうり、なす、ピーマン、トウモロコシ、そら豆、もやし、ねぎを洗います。\n\n## 2. 材料を切る\nじゃがいもとにんじんの皮を剥き、一口大に切ります。大根も同じサイズに切ります。\nトマト、ブロッコリー、きゅうり、なす、ピーマンはヘタを取り、一口大に切ります。\nキャベツは手でちぎり、ねぎと玉ねぎは薄くスライスします。\nトウモロコシは粒にする、そら豆はさやから出します。\n\n## 3. 炒める\nフライパンを熱し、ごま油を加えます。次にじゃがいも、にんじん、大根を中火で炒めます。\n\n## 4. 他の材料も炒める\nじゃがいもたちが少し柔らかくなったら、他の野菜を順番に加え炒めます。各野菜が均一に火が通るよう、よく混ぜ合わせます。\n\n## 5. 味付けをする\nしょうゆと醤油を加えて全体に絡め、さらに2〜3分炒めます。最後に塩とこしょうで味を調えます。\n\nお皿に盛り付け、完成です。",
+  "ingredients": [
+    {
+      "ingredientName": "じゃがいも",
+      "quantity": "1個"
+    },
+    {
+      "ingredientName": "玉ねぎ",
+      "quantity": "1個"
+    },
+    {
+      "ingredientName": "にんじん",
+      "quantity": "1本"
+    },
+    {
+      "ingredientName": "大根",
+      "quantity": "1/4本"
+    },
+    {
+      "ingredientName": "トマト",
+      "quantity": "1個"
+    },
+    {
+      "ingredientName": "ブロッコリー",
+      "quantity": "1/2個"
+    },
+    {
+      "ingredientName": "キャベツ",
+      "quantity": "4枚"
+    },
+    {
+      "ingredientName": "きゅうり",
+      "quantity": "1本"
+    },
+    {
+      "ingredientName": "なす",
+      "quantity": "1個"
+    },
+    {
+      "ingredientName": "ピーマン",
+      "quantity": "2個"
+    },
+    {
+      "ingredientName": "トウモロコシ",
+      "quantity": "1本"
+    },
+    {
+      "ingredientName": "そら豆",
+      "quantity": "100g"
+    },
+    {
+      "ingredientName": "もやし",
+      "quantity": "1パック"
+    },
+    {
+      "ingredientName": "ねぎ",
+      "quantity": "1本"
+    },
+    {
+      "ingredientName": "しょうゆ",
+      "quantity": "大さじ1"
+    },
+    {
+      "ingredientName": "ごま油",
+      "quantity": "小さじ1"
+    },
+    {
+      "ingredientName": "醤油",
+      "quantity": "大さじ2"
+    },
+    {
+      "ingredientName": "塩",
+      "quantity": "少々"
+    },
+    {
+      "ingredientName": "こしょう",
+      "quantity": "少々"
+    }
+  ]
+}

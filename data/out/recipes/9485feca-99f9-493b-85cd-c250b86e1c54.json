@@ -1,0 +1,27 @@
+{
+  "id": "9485feca-99f9-493b-85cd-c250b86e1c54",
+  "recipe_name": "チキンカツ",
+  "instructions": "# チキンカツの作り方\n\n## 1. 鶏肉の下ごしらえ\n鶏肉をキッチンペーパーでたっぷりと水分を拭き取り、両面に塩とこしょうを振りかける。\n\n## 2. 鶏肉のマリネ\n醤油と砂糖を混ぜたものを鶏肉にまんべんなく塗り、全体がよくなじむように軽くもみ込む。 \n\n## 3. 揚げる\nフライパンに適量の油を熱し、2の鶏肉を中火で両面ともにきつね色になるまで揚げ、チキンカツを仕上げる。",
+  "ingredients": [
+    {
+      "ingredientName": "鶏肉",
+      "quantity": "2枚"
+    },
+    {
+      "ingredientName": "塩",
+      "quantity": "少々"
+    },
+    {
+      "ingredientName": "こしょう",
+      "quantity": "少々"
+    },
+    {
+      "ingredientName": "醤油",
+      "quantity": "大さじ1"
+    },
+    {
+      "ingredientName": "さとう",
+      "quantity": "大さじ1"
+    }
+  ]
+}

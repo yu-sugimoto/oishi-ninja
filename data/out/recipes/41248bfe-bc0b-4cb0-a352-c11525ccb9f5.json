@@ -1,0 +1,31 @@
+{
+  "id": "41248bfe-bc0b-4cb0-a352-c11525ccb9f5",
+  "recipe_name": "卵焼き",
+  "instructions": "# 卵焼きの作り方\n\n## 手順\n\n### 1. 材料を準備する\n卵を割ってボウルに入れる。醤油、みりん、さとう、塩をそれぞれ準備する。\n\n### 2. 卵液を作る\n卵に塩、醤油、みりん、さとうを加えてよく混ぜる。\n\n### 3. フライパンを予熱する\nフライパンを中火で熱し、バターを全体に広げる。\n\n### 4. 卵焼きを作る\nフライパンに卵液を流し入れ、弱火にして蓋をし、卵が固まるまで焼く。固まったら卵焼きをフライパンから取り出す。\n\n**卵焼きの完成です！** お好みでさらに焼き色をつけても美味しいですよ。",
+  "ingredients": [
+    {
+      "ingredientName": "卵",
+      "quantity": "2個"
+    },
+    {
+      "ingredientName": "醤油",
+      "quantity": "大さじ1"
+    },
+    {
+      "ingredientName": "みりん",
+      "quantity": "大さじ1"
+    },
+    {
+      "ingredientName": "さとう",
+      "quantity": "大さじ1"
+    },
+    {
+      "ingredientName": "塩",
+      "quantity": "少々"
+    },
+    {
+      "ingredientName": "バター",
+      "quantity": "10g"
+    }
+  ]
+}
