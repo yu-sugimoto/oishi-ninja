@@ -3,6 +3,7 @@ from flask_cors import CORS
 from api import create_app, db
 from dotenv import load_dotenv
 
+from api.utilities import get_country_code_from_request
 from api.config import get_gunicorn_options
 from api.models import Recipe, Ingredient, IngredientQuantity, Like
 from api.services.gunicorn_app import GunicornApp
@@ -52,10 +53,7 @@ def get_users():
 def get_recipe_ranking():
     try:
         # ヘッダーから国情報を取得
-        country = request.headers.get('Country')  # Countryヘッダーを取得
-        # country = "Japan"
-        if not country:
-            return jsonify({"error": "Country header is required"}), 400
+        country = get_country_code_from_request(request=request)
 
         # クエリパラメータを取得
         count = request.args.get('count', default=10, type=int)  # デフォルトで10件
