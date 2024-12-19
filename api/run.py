@@ -1,4 +1,5 @@
 from flask import jsonify, request
+from flask_cors import CORS
 from api import create_app, db
 from dotenv import load_dotenv
 
@@ -9,6 +10,7 @@ from api.services.gunicorn_app import GunicornApp
 load_dotenv()
 
 app = create_app()
+CORS(app)
 
 # ルーティングテスト
 @app.route('/', methods=['GET'])
