@@ -46,10 +46,17 @@ fi
 # CloudFrontキャッシュの無効化
 log "CloudFrontキャッシュを無効化しています..."
 
-if aws cloudfront create-invalidation --distribution-id "$DISTRIBUTION_ID" --paths "/*" --profile "$AWS_PROFILE"; then
-  log "CloudFrontキャッシュの無効化が完了しました。"
-else
-  echo "[ERROR] CloudFrontキャッシュの無効化中にエラーが発生しました。"
+# CloudFrontキャッシュの削除
+log "CloudFrontディストリビューション \"$DISTRIBUTION_ID\" のキャッシュを削除中..."
+INVALIDATION_ID=$(aws cloudfront create-invalidation \
+    --distribution-id "$DISTRIBUTION_ID" \
+    --paths "/*" \
+    --query 'Invalidation.Id' --output text \
+    $AWS_PROFILE_OPTION \
+  )
+
+if [ $? -ne 0 ]; then
+  echo "[ERROR] CloudFrontのキャッシュ削除に失敗しました。"
   exit 1
 fi
 
