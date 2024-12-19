@@ -1,0 +1,43 @@
+{
+  "id": "5400c5f8-b972-4380-95c8-517fce669d4d",
+  "recipe_name": "果物サラダ",
+  "instructions": "# 果物サラダの作り方\n\n## 1. 皮をむく\nりんご、バナナ、イチゴ、メロン、オレンジ、ぶどう、キウイの皮をむく。\n\n## 2. 果物を切る\nりんご、メロン、オレンジを一口大に切る。バナナは輪切りに、イチゴはヘタを取り除き半分に切る。パイナップルは小さいピースに切る。\n\n## 3. 葡萄は半分に切る\nぶどうは半分に切って種を取り除く。\n\n## 4. ボウルに入れる\n全ての切った果物を大きなボウルに入れる。\n\n## 5. ヨーグルトを加える\nヨーグルトを全ての果物の上にかけ、よく混ぜ合わせる。\n\nこれで果物サラダの完成です！ 冷蔵庫で冷やしてから食べるとさらに美味しくなります。",
+  "ingredients": [
+    {
+      "ingredientName": "りんご",
+      "quantity": "1個"
+    },
+    {
+      "ingredientName": "バナナ",
+      "quantity": "1本"
+    },
+    {
+      "ingredientName": "イチゴ",
+      "quantity": "10個"
+    },
+    {
+      "ingredientName": "メロン",
+      "quantity": "1/4個"
+    },
+    {
+      "ingredientName": "オレンジ",
+      "quantity": "1個"
+    },
+    {
+      "ingredientName": "ぶどう",
+      "quantity": "15粒"
+    },
+    {
+      "ingredientName": "キウイ",
+      "quantity": "1個"
+    },
+    {
+      "ingredientName": "パイナップル",
+      "quantity": "3切れ"
+    },
+    {
+      "ingredientName": "ヨーグルト",
+      "quantity": "200g"
+    }
+  ]
+}
