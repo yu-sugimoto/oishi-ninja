@@ -4,6 +4,7 @@ import { useCountryStore } from "../store/useCountryStore.ts"
 import { countryCodeT } from "../type/countryType.ts"
 import { getRecipeRankingByCountryCode } from "../services/api"
 import RecipeCard from "../components/RecipeCard.vue"
+import ArrowLink from "../components/ArrowLink.vue"
 import type { components } from "../schema.d.ts"
 
 // TODO: devide component just check move
@@ -35,8 +36,11 @@ onMounted(fetchRecipeRanking)
 
 <template>
 	<main>
-		<h1>RankingView.vue</h1>
-		<RouterLink to="/">国選択に戻る</RouterLink>
+		<ArrowLink 
+			to="/"
+			message="国選択に戻る"
+			class="arrowlink-top"
+		/>
 
 		<div v-if="rankings?.recipes?.length">
 			<div class="recipe-cards" v-for="(recipe, index) in rankings?.recipes" :key="recipe.id">
@@ -50,6 +54,11 @@ onMounted(fetchRecipeRanking)
 					/>
 			</div>
 		</div>
+		<ArrowLink 
+			to="/"
+			message="国選択に戻る"
+			class="arrowlink-bottom"
+		/>
 	</main>
 </template>
 
@@ -57,6 +66,17 @@ onMounted(fetchRecipeRanking)
 .recipe-cards {
 	display: flex;
 	justify-content: center;
+}
+.arrowlink-top {
+	margin-top: 20px;
+	margin-right: 10px;
+	margin-left: 10px;
+}
+.arrowlink-bottom {
+	margin-top: 20px;
+	margin-right: 10px;
+	margin-bottom: 20px;
+	margin-left: 10px;
 }
 </style>
 

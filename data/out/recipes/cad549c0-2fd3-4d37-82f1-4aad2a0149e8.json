@@ -1,0 +1,47 @@
+{
+  "id": "cad549c0-2fd3-4d37-82f1-4aad2a0149e8",
+  "recipe_name": "春巻き",
+  "instructions": "# 春巻きの作り方\n\n## 1. 材料を切る\n鶏肉は一口大に切ります。\nにんじんとねぎもみじん切りにします。\nキャベツはざく切り、モヤシはそのまま、エビは背わたを取り除きます。\n\n## 2. 炒める\nフライパンにごま油を熱し、鶏肉、にんじん、キャベツ、モヤシ、ねぎを炒めます。\n\n## 3. 調味料を加える\nしょうゆ、塩、こしょうを加え、全体がよく混ざるように炒め続けます。\n\n## 4. エビを加える\nエビを加えさらに炒めます。\n\n## 5. 皮で巻く\n炒めた具材を春巻きの皮で包みます。\n\n## 6. 揚げる\n春巻きを油で揚げます。きつね色になったら取り出し、キッチンペーパーで余分な油をきって完成です。",
+  "ingredients": [
+    {
+      "ingredientName": "鶏肉",
+      "quantity": "200g"
+    },
+    {
+      "ingredientName": "にんじん",
+      "quantity": "1本"
+    },
+    {
+      "ingredientName": "キャベツ",
+      "quantity": "1/4個"
+    },
+    {
+      "ingredientName": "もやし",
+      "quantity": "100g"
+    },
+    {
+      "ingredientName": "ねぎ",
+      "quantity": "1本"
+    },
+    {
+      "ingredientName": "しょうゆ",
+      "quantity": "大さじ2"
+    },
+    {
+      "ingredientName": "エビ",
+      "quantity": "10尾"
+    },
+    {
+      "ingredientName": "塩",
+      "quantity": "少々"
+    },
+    {
+      "ingredientName": "こしょう",
+      "quantity": "少々"
+    },
+    {
+      "ingredientName": "ごま油",
+      "quantity": "大さじ1"
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": "6b0ada62-30a4-444b-ae28-cea108a5349e",
+  "recipe_name": "点心",
+  "instructions": "# 点心の作り方\n\n## 1. 材料の下ごしらえ\n\nエビは殻を剥き、背ワタを取り除きます。豚肉も一口大にカットします。しいたけは石づきを取り、細切りにします。\n\n## 2. 餡の調合\n\nボウルにエビ、豚肉、しいたけを入れて混ぜ合わせ、ごま油、塩、こしょうを加え、更によく混ぜます。\n\n## 3. 油で炒める\n\nフライパンに油を熱し、2.で作った餡を炒めます。全体が均一に混ざり、具材が火が通ったら火からおろします。\n\nこれで、美味しい点心の完成です。ご飯と一緒にお楽しみください。",
+  "ingredients": [
+    {
+      "ingredientName": "豚肉",
+      "quantity": "200g"
+    },
+    {
+      "ingredientName": "エビ",
+      "quantity": "200g"
+    },
+    {
+      "ingredientName": "しいたけ",
+      "quantity": "4個"
+    },
+    {
+      "ingredientName": "ごま油",
+      "quantity": "大さじ1"
+    },
+    {
+      "ingredientName": "塩",
+      "quantity": "少々"
+    },
+    {
+      "ingredientName": "こしょう",
+      "quantity": "少々"
+    }
+  ]
+}
