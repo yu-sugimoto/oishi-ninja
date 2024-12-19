@@ -16,6 +16,7 @@ python-dotenv = "^1.0.1"
 psycopg2-binary = "^2.9.10"
 gunicorn = "^23.0.0"
 argparse = "^1.4.0"
+flask-cors = "^5.0.0"
 
 [tool.poetry.scripts]
 start = "run:start_app"
