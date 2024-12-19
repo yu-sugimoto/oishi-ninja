@@ -1,0 +1,51 @@
+{
+  "id": "08595992-9c71-463e-a2ed-4fb31eae753e",
+  "recipe_name": "寿司",
+  "instructions": "# 寿司の作り方\n\n## 1. 材料の下準備\nサーモン、マグロ、エビ、イカ、甘鯛、イエローテールをそれぞれ切ります。\n\n## 2. 酢飯を作る\n飯を冷まし、みりん、さとう、醤油を混ぜて炊き込みます。\n\n## 3. 寿司を作る\n各魚を1つずつ取り、手で握った酢飯の上に乗せます。その後、焼き海苔で包んで完成です。\n\n以上で、美味しい寿司の出来上がりです。刺身の品質と新鮮さが重要なポイントなため、手早く作り上げてください。",
+  "ingredients": [
+    {
+      "ingredientName": "サーモン",
+      "quantity": "200g"
+    },
+    {
+      "ingredientName": "マグロ",
+      "quantity": "200g"
+    },
+    {
+      "ingredientName": "エビ",
+      "quantity": "200g"
+    },
+    {
+      "ingredientName": "イカ",
+      "quantity": "200g"
+    },
+    {
+      "ingredientName": "甘鯛",
+      "quantity": "200g"
+    },
+    {
+      "ingredientName": "イエローテール",
+      "quantity": "200g"
+    },
+    {
+      "ingredientName": "焼き海苔",
+      "quantity": "10枚"
+    },
+    {
+      "ingredientName": "飯",
+      "quantity": "4合"
+    },
+    {
+      "ingredientName": "みりん",
+      "quantity": "大さじ2"
+    },
+    {
+      "ingredientName": "さとう",
+      "quantity": "大さじ1"
+    },
+    {
+      "ingredientName": "醤油",
+      "quantity": "大さじ2"
+    }
+  ]
+}

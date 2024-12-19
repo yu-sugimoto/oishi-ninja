@@ -1,0 +1,99 @@
+{
+  "id": "30faa5ec-faf5-4c98-a8db-c4ed06dad28d",
+  "recipe_name": "鍋物",
+  "instructions": "# 鍋物\n\n## 材料\n- 鶏肉 (200g)\n- じゃがいも (2個)\n- 玉ねぎ (1個)\n- にんじん (1本)\n- 大根 (200g)\n- ブロッコリー (1個)\n- キャベツ (1/4個)\n- もやし (1パック)\n- ねぎ (1本)\n- しょうゆ (大さじ3)\n- 牛肉 (200g)\n- 豚肉 (200g)\n- こんにゃく (1パック)\n- きのこ (1パック)\n- しいたけ (4個)\n- えのき (1パック)\n- 舞茸 (1パック)\n- しめじ (1パック)\n- みりん (大さじ3)\n- 塩 (少々)\n- うどん (2玉)\n- 豆腐 (1パック)\n- ちくわ (4本)\n\n## 手順\n\n### 1. 材料を切る\n- 鶏肉、牛肉、豚肉は一口大に切る。\n- じゃがいも、玉ねぎ、にんじん、大根は皮を剥き1cm厚さのいちょう切りにする。\n- ブロッコリーは小房に分ける。\n- キャベツ、ねぎは食べやすい大きさに切る。\n- こんにゃくは一口大に切る。\n- あらかじめ洗っておいたきのこ類（しいたけ、えのき、舞茸、しめじ）は食べやすい大きさにカットし、しいたけはヘタを取り除く。\n- 豆腐は2cm角に切る。\n- ちくわは斜めに5mm幅に切る。\n\n### 2. 鍋に材料を入れる\n- 鍋に水を適量入れ、きのこ類、じゃがいも、大根、にんじん、こんにゃく、肉類を入れて火にかける。\n- 煮立ったらアクを取り除き、しょうゆ、みりん、塩を加える。\n\n### 3. 野菜を加える\n- 玉ねぎ、ブロッコリー、キャベツ、もやし、ねぎを鍋に加える。\n- 野菜が柔らかくなるまで中火で煮る。\n\n### 4. うどんを加える\n- 他の材料が煮えたら、うどんを加えてさらに5分ほど煮る。\n- 最後に豆腐とちくわを加え、全体がよく煮えたら火を止める。\n\n以上で、手作りの鍋物が完成です。具材はお好みでアレンジしてみてください。みんなで囲む冬の定番料理を楽しんでください。",
+  "ingredients": [
+    {
+      "ingredientName": "鶏肉",
+      "quantity": "200g"
+    },
+    {
+      "ingredientName": "じゃがいも",
+      "quantity": "2個"
+    },
+    {
+      "ingredientName": "玉ねぎ",
+      "quantity": "1個"
+    },
+    {
+      "ingredientName": "にんじん",
+      "quantity": "1本"
+    },
+    {
+      "ingredientName": "大根",
+      "quantity": "200g"
+    },
+    {
+      "ingredientName": "ブロッコリー",
+      "quantity": "1個"
+    },
+    {
+      "ingredientName": "キャベツ",
+      "quantity": "1/4個"
+    },
+    {
+      "ingredientName": "もやし",
+      "quantity": "1パック"
+    },
+    {
+      "ingredientName": "ねぎ",
+      "quantity": "1本"
+    },
+    {
+      "ingredientName": "しょうゆ",
+      "quantity": "大さじ3"
+    },
+    {
+      "ingredientName": "牛肉",
+      "quantity": "200g"
+    },
+    {
+      "ingredientName": "豚肉",
+      "quantity": "200g"
+    },
+    {
+      "ingredientName": "こんにゃく",
+      "quantity": "1パック"
+    },
+    {
+      "ingredientName": "きのこ",
+      "quantity": "1パック"
+    },
+    {
+      "ingredientName": "しいたけ",
+      "quantity": "4個"
+    },
+    {
+      "ingredientName": "えのき",
+      "quantity": "1パック"
+    },
+    {
+      "ingredientName": "舞茸",
+      "quantity": "1パック"
+    },
+    {
+      "ingredientName": "しめじ",
+      "quantity": "1パック"
+    },
+    {
+      "ingredientName": "みりん",
+      "quantity": "大さじ3"
+    },
+    {
+      "ingredientName": "塩",
+      "quantity": "少々"
+    },
+    {
+      "ingredientName": "うどん",
+      "quantity": "2玉"
+    },
+    {
+      "ingredientName": "豆腐",
+      "quantity": "1パック"
+    },
+    {
+      "ingredientName": "ちくわ",
+      "quantity": "4本"
+    }
+  ]
+}
