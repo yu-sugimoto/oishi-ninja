@@ -64,21 +64,20 @@ def get_recipe_ranking():
             .order_by(Like.like_count.desc()).offset(offset).limit(count).all()
 
         # レシピをJSON形式で返す
-        recipe_data = [
-            {
-                "recipe_id": recipe.recipe_id,
-                "recipe_name": recipe.recipe_name,
+        recipe_data = []
+        for recipe in recipes:
+            likes = 0
+            for like in recipe.likes:
+                if like.country == country:
+                    likes += like.like_count
+
+            recipe_data.append({
+                "id": f"{recipe.recipe_id}",
+                "name": recipe.recipe_name,
                 "thumbnail": recipe.thumbnail,
                 "instructions": recipe.instructions,
-                'likes': [
-                    {
-                        'like_count': like.like_count
-                    }
-                    for like in recipe.likes if like.country == country
-                ]
-            }
-            for recipe in recipes
-        ]
+                'likes': likes
+            })
 
         return jsonify({"recipes": recipe_data}), 200
     except Exception as e:
