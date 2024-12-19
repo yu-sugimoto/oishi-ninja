@@ -70,7 +70,10 @@ npm run build || { echo "[ERROR] ビルドに失敗しました。"; exit 1; }
 
 # ファイルのアップロード
 log "ビルドされたファイルをバケット \"$BUCKET_NAME\" にアップロード中..."
-aws s3 sync ./dist "s3://$BUCKET_NAME" $AWS_PROFILE_OPTION || { echo "[ERROR] ファイルのアップロードに失敗しました。"; exit 1; }
+aws s3 sync ./dist "s3://$BUCKET_NAME" $AWS_PROFILE_OPTION || {
+  echo "[ERROR] ファイルのアップロードに失敗しました。";
+  exit 1;
+}
 
 log "ファイルのアップロードが完了しました。"
 

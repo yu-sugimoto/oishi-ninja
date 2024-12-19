@@ -14,32 +14,31 @@ app = create_app()
 country_codes = ["ISL","IRL","AZE","AFG","USA","VIR","ASM","ARE","DZA","ARG","ABW","ALB","ARM","AIA","AGO","ATG","AND","YEM","GBR","IOT","VGB","ISR","ITA","IRQ","IRN","IND","IDN","WLF","UGA","UKR","UZB","URY","ECU","EGY","EST","SWZ","ETH","ERI","SLV","AUS","AUT","ALA","OMN","NLD","GHA","CPV","GGY","GUY","KAZ","QAT","UMI","CAN","GAB","CMR","GMB","KHM","MKD","MNP","GIN","GNB","CYP","CUB","CUW","GRC","KIR","KGZ","GTM","GLP","GUM","KWT","COK","GRL","CXR","GRD","HRV","CYM","KEN","CIV","CCK","CRI","COM","COL","COG","COD","SAU","SGS","WSM","STP","BLM","ZMB","SPM","SMR","MAF","SLE","DJI","GIB","JEY","JAM","GEO","SYR","SGP","SXM","ZWE","CHE","SWE","SDN","SJM","ESP","SUR","LKA","SVK","SVN","SYC","GNQ","SEN","SRB","KNA","VCT","SHN","LCA","SOM","SLB","TCA","THA","KOR","TWN","TJK","TZA","CZE","TCD","CAF","CHN","TUN","PRK","CHL","TUV","DNK","DEU","TGO","TKL","DOM","DMA","TTO","TKM","TUR","TON","NGA","NRU","NAM","ATA","NIU","NIC","NER","JPN","ESH","NCL","NZL","NPL","NFK","NOR","HMD","BHR","HTI","PAK","VAT","PAN","VUT","BHS","PNG","BMU","PLW","PRY","BRB","PSE","HUN","BGD","TLS","PCN","FJI","PHL","FIN","BTN","BVT","PRI","FRO","FLK","BRA","FRA","GUF","PYF","ATF","BGR","BFA","BRN","BDI","VNM","BEN","VEN","BLR","BLZ","PER","BEL","POL","BIH","BWA","BES","BOL","PRT","HKG","HND","MHL","MAC","MDG","MYT","MWI","MLI","MLT","MTQ","MYS","IMN","FSM","ZAF","SSD","MMR","MEX","MUS","MRT","MOZ","MCO","MDV","MDA","MAR","MNG","MNE","MSR","JOR","LAO","LVA","LTU","LBY","LIE","LBR","ROU","LUX","RWA","LSO","LBN","REU","RUS"]
 
 with app.app_context():
-    def get_out_dir():
+    def get_recipes_dir():
         parser = argparse.ArgumentParser(description="Sample data creation script")
-        parser.add_argument("--out-dir", type=str, help="Path to the output directory")
+        parser.add_argument("--recipes-dir", type=str, help="Path to the recipes JSON directory")
         args = parser.parse_args()
 
-        out_dir = args.out_dir or os.environ.get("OUT_DIR")
+        recipes_dir = args.recipes_dir
 
-        if not out_dir:
-            raise ValueError("Output directory must be specified either via --out-dir or the OUT_DIR environment variable")
+        if not recipes_dir:
+            raise ValueError("Recipes directory not provided")
 
-        return out_dir
+        return recipes_dir
 
     def create_sample_data():
         logging.info("Starting sample data creation")
 
-        out_dir = get_out_dir()
-        recipes_json_dir_path = os.path.join(out_dir, "recipes")
+        recipes_dir = get_recipes_dir()
 
         # レシピファイル一覧を取得
         try:
             recipes_json_files = [
-                os.path.join(recipes_json_dir_path, file)
-                for file in os.listdir(recipes_json_dir_path)
+                os.path.join(recipes_dir, file)
+                for file in os.listdir(recipes_dir)
                 if file.endswith(".json")
             ]
-            logging.info(f"Found {len(recipes_json_files)} recipe files in {recipes_json_dir_path}")
+            logging.info(f"Found {len(recipes_json_files)} recipe files in {recipes_dir}")
         except Exception as e:
             logging.error(f"Failed to list recipe files: {e}")
             return
