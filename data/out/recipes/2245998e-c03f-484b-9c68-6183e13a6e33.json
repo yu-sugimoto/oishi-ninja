@@ -15,5 +15,18 @@
       "ingredientName": "ごはん",
       "quantity": "適量"
     }
-  ]
+  ],
+  "likes": {
+    "JPN": 300,
+    "CHN": 100,
+    "VNM": 120,
+    "NPL": 80,
+    "KOR": 130,
+    "IDN": 85,
+    "TWN": 110,
+    "LKA": 70,
+    "MMR": 90,
+    "BGD": 75,
+    "MNG": 60
+  }
 }

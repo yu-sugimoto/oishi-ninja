@@ -168,6 +168,18 @@ async function main() {
     } catch (error) {
       console.error(`[ERROR] いいねデータの作成に失敗しました: ${recipeName}`, error);
     }
+
+    try {
+      const recipeData = recipeDataByName[recipeName];
+      const recipeFilePath = `out/recipes/${recipeData.id}.json`;
+      const likesFilePath = `out/likes/${recipeData.id}.json`;
+      const recipe = JSON.parse(fs.readFileSync(recipeFilePath, "utf-8"));
+      const likes = JSON.parse(fs.readFileSync(likesFilePath, "utf-8"));
+      recipe.likes = likes;
+      fs.writeFileSync(recipeFilePath, JSON.stringify(recipe, null, 2));
+    } catch (error) {
+      console.error(`[ERROR] いいねデータの作成に失敗しました: ${recipeName}`, error);
+    }
   }
 }
 

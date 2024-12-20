@@ -39,5 +39,18 @@
       "ingredientName": "ごま油",
       "quantity": "大さじ1"
     }
-  ]
+  ],
+  "likes": {
+    "JPN": 300,
+    "CHN": 200,
+    "VNM": 150,
+    "NPL": 80,
+    "KOR": 230,
+    "IDN": 110,
+    "TWN": 250,
+    "LKA": 70,
+    "MMR": 100,
+    "BGD": 60,
+    "MNG": 40
+  }
 }

@@ -27,5 +27,18 @@
       "ingredientName": "バター",
       "quantity": "10g"
     }
-  ]
+  ],
+  "likes": {
+    "JPN": 300,
+    "CHN": 170,
+    "VNM": 140,
+    "NPL": 100,
+    "KOR": 160,
+    "IDN": 130,
+    "TWN": 180,
+    "LKA": 110,
+    "MMR": 120,
+    "BGD": 100,
+    "MNG": 90
+  }
 }

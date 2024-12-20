@@ -23,5 +23,18 @@
       "ingredientName": "オリーブオイル",
       "quantity": "大さじ1"
     }
-  ]
+  ],
+  "likes": {
+    "JPN": 250,
+    "CHN": 180,
+    "VNM": 160,
+    "NPL": 120,
+    "KOR": 200,
+    "IDN": 180,
+    "TWN": 210,
+    "LKA": 120,
+    "MMR": 160,
+    "BGD": 100,
+    "MNG": 80
+  }
 }

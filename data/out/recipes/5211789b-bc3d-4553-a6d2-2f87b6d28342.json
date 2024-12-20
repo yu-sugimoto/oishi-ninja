@@ -19,5 +19,18 @@
       "ingredientName": "味噌",
       "quantity": "大さじ2"
     }
-  ]
+  ],
+  "likes": {
+    "JPN": 300,
+    "CHN": 150,
+    "VNM": 120,
+    "NPL": 90,
+    "KOR": 180,
+    "IDN": 100,
+    "TWN": 130,
+    "LKA": 80,
+    "MMR": 100,
+    "BGD": 70,
+    "MNG": 50
+  }
 }

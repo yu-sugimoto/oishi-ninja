@@ -39,5 +39,18 @@
       "ingredientName": "ヨーグルト",
       "quantity": "200g"
     }
-  ]
+  ],
+  "likes": {
+    "JPN": 220,
+    "CHN": 170,
+    "VNM": 260,
+    "NPL": 170,
+    "KOR": 200,
+    "IDN": 180,
+    "TWN": 210,
+    "LKA": 160,
+    "MMR": 190,
+    "BGD": 150,
+    "MNG": 130
+  }
 }
