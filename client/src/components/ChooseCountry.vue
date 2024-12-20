@@ -31,7 +31,7 @@ watch(selectedCountry, (newCountry) => {
 	<div class="selector-wrapper">
 		<select class="country-selector" v-model=selectedCountry >
 			<option value="">国籍を選択</option>
-			<option v-for="option in countryOptions" :key="option.value" :value="option" >
+			<option v-for="option in countryOptions" :key="option.value" :value="option.value" >
 				{{ option.label }}
 			</option>
 		</select>
