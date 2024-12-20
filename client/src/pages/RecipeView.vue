@@ -6,8 +6,8 @@ import { useRecipeState } from "../store/useRecipe.ts"
 import { useCountryStore } from "../store/useCountryStore.ts"
 import GoodButton from '../components/GoodButton.vue'
 import ArrowLink from '../components/ArrowLink.vue'
-import RecipeInstructions from '../components/RecipeInstructions.vue'
 import RecipeIngredient from '../components/RecipeIngredient.vue'
+import MarkDownRender from '../components/MarkDownRender.vue'
 
 import { likeRecipeByCountryAndId, unlikeRecipeByCountryAndId } from "../services/api.ts"
 
@@ -20,7 +20,7 @@ const recipe: Ref<components["schemas"]["Recipe"] | ""> = ref("")
 const setRecipeToRef = () => {
 	const storedRecipe = recipeStore.getRecipe().value
 	if (storedRecipe !== "") {
-		recipe.value =  storedRecipe as components["schemas"]["Recipe"]
+		recipe.value = storedRecipe as components["schemas"]["Recipe"]
 	}
 }
 
@@ -59,8 +59,8 @@ onMounted(setRecipeToRef)
 				<div class="recipe-page__keyvisual">
 					<img :src="recipe.thumbnail" alt="" width="343px" height="243px">
 				</div>
-				<RecipeInstructions 
-					:instructions="recipe?.instructions"
+				<MarkDownRender
+					:text="recipe?.instructions"
 				/>
 				<RecipeIngredient
 					:ingredientQuantities="recipe?.ingredientQuantities"
