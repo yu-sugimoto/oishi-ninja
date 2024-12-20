@@ -47,5 +47,18 @@
       "ingredientName": "醤油",
       "quantity": "大さじ1"
     }
-  ]
+  ],
+  "likes": {
+    "JPN": 300,
+    "CHN": 200,
+    "VNM": 150,
+    "NPL": 120,
+    "KOR": 160,
+    "IDN": 110,
+    "TWN": 190,
+    "LKA": 120,
+    "MMR": 130,
+    "BGD": 110,
+    "MNG": 90
+  }
 }

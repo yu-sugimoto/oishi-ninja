@@ -31,5 +31,18 @@
       "ingredientName": "塩",
       "quantity": "少々"
     }
-  ]
+  ],
+  "likes": {
+    "JPN": 280,
+    "CHN": 180,
+    "VNM": 190,
+    "NPL": 160,
+    "KOR": 170,
+    "IDN": 160,
+    "TWN": 180,
+    "LKA": 160,
+    "MMR": 170,
+    "BGD": 150,
+    "MNG": 130
+  }
 }

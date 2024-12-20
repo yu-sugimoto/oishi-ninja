@@ -27,5 +27,18 @@
       "ingredientName": "さとう",
       "quantity": "大さじ3"
     }
-  ]
+  ],
+  "likes": {
+    "JPN": 300,
+    "CHN": 180,
+    "VNM": 200,
+    "NPL": 120,
+    "KOR": 190,
+    "IDN": 130,
+    "TWN": 190,
+    "LKA": 120,
+    "MMR": 140,
+    "BGD": 110,
+    "MNG": 80
+  }
 }

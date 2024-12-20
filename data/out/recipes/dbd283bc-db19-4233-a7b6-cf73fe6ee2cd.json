@@ -19,5 +19,18 @@
       "ingredientName": "生クリーム",
       "quantity": "200ml"
     }
-  ]
+  ],
+  "likes": {
+    "JPN": 220,
+    "CHN": 200,
+    "VNM": 180,
+    "NPL": 140,
+    "KOR": 210,
+    "IDN": 150,
+    "TWN": 220,
+    "LKA": 130,
+    "MMR": 160,
+    "BGD": 120,
+    "MNG": 110
+  }
 }

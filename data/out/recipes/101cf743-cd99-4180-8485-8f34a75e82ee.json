@@ -27,5 +27,18 @@
       "ingredientName": "ねぎ",
       "quantity": "2本"
     }
-  ]
+  ],
+  "likes": {
+    "JPN": 300,
+    "CHN": 240,
+    "VNM": 150,
+    "NPL": 120,
+    "KOR": 220,
+    "IDN": 130,
+    "TWN": 250,
+    "LKA": 90,
+    "MMR": 180,
+    "BGD": 70,
+    "MNG": 60
+  }
 }
