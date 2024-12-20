@@ -50,7 +50,11 @@ const rankingClassObject = computed(() => ({
 				v-if="isShowRanking()">
 				{{ props.rankingIndex + 1 }}
 			</div>
-			<img class="recipe-card__keyvisual" :src="props.imagePath" :alt="title" />
+			<img class="recipe-card__keyvisual" 
+				:src="props.imagePath" :alt="title"
+				width="300px"
+				height="200px"
+			/>
 		</RouterLink>
 		<p class="recipe-card__title">
 			{{ props.title }}
