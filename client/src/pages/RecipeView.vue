@@ -20,7 +20,7 @@ const recipe: Ref<components["schemas"]["Recipe"] | ""> = ref("")
 const setRecipeToRef = () => {
 	const storedRecipe = recipeStore.getRecipe().value
 	if (storedRecipe !== "") {
-		recipe.value =  storedRecipe as components["schemas"]["Recipe"]
+		recipe.value = storedRecipe as components["schemas"]["Recipe"]
 	}
 }
 
