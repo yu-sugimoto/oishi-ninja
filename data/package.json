@@ -10,7 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "commander": "^12.1.0",
     "dotenv": "^16.4.7",
+    "fs-extra": "^11.2.0",
+    "imagemin": "^9.0.0",
+    "imagemin-pngquant": "^10.0.0",
     "openai": "^4.76.3",
     "uuid": "^11.0.3"
   },
