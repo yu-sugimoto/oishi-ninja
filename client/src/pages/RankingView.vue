@@ -11,7 +11,6 @@ import type { components } from "../schema.d.ts"
 import { useRecipeState } from '../store/useRecipe.ts'
 const { setRecipe } = useRecipeState()
 const registerRecipePinia = (recipe: components["schemas"]["Recipe"]) => {
-	console.log(recipe)
 	setRecipe(recipe)
 }
 
