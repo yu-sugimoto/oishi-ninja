@@ -7,8 +7,6 @@ interface Props {
 
 const props = defineProps<Props>()
 const markdown = marked.parse(props.text);
-console.log(props.text)
-
 </script>
 
 <template>
