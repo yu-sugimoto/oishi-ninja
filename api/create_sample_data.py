@@ -3,6 +3,7 @@ import json
 import logging
 import argparse
 from datetime import datetime
+import random
 from api import create_app, db
 from api.models import Recipe, Ingredient, IngredientQuantity, Like
 
@@ -113,11 +114,15 @@ with app.app_context():
                     )
                     db.session.add(ingredient_quantity)
 
+                likes = recipe_data["likes"]
                 for country in country_codes:
+                    base_like_count = likes.get(country, 0)
+                    like_count = max(0, base_like_count + random.randint(-20, 20))
+
                     like = Like(
                         recipe_id=recipe_id,
                         country=country,
-                        like_count=0,
+                        like_count=like_count,
                         created_at=datetime.now(),
                     )
                     db.session.add(like)
