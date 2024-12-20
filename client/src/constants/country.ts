@@ -1,4 +1,256 @@
-export const COUNTRY_CODE = Object.freeze({
+type CountryCode = (
+  'ISL' |
+  'IRL' |
+  'AZE' |
+  'AFG' |
+  'USA' |
+  'VIR' |
+  'ASM' |
+  'ARE' |
+  'DZA' |
+  'ARG' |
+  'ABW' |
+  'ALB' |
+  'ARM' |
+  'AIA' |
+  'AGO' |
+  'ATG' |
+  'AND' |
+  'YEM' |
+  'GBR' |
+  'IOT' |
+  'VGB' |
+  'ISR' |
+  'ITA' |
+  'IRQ' |
+  'IRN' |
+  'IND' |
+  'IDN' |
+  'WLF' |
+  'UGA' |
+  'UKR' |
+  'UZB' |
+  'URY' |
+  'ECU' |
+  'EGY' |
+  'EST' |
+  'SWZ' |
+  'ETH' |
+  'ERI' |
+  'SLV' |
+  'AUS' |
+  'AUT' |
+  'ALA' |
+  'OMN' |
+  'NLD' |
+  'GHA' |
+  'CPV' |
+  'GGY' |
+  'GUY' |
+  'KAZ' |
+  'QAT' |
+  'UMI' |
+  'CAN' |
+  'GAB' |
+  'CMR' |
+  'GMB' |
+  'KHM' |
+  'MKD' |
+  'MNP' |
+  'GIN' |
+  'GNB' |
+  'CYP' |
+  'CUB' |
+  'CUW' |
+  'GRC' |
+  'KIR' |
+  'KGZ' |
+  'GTM' |
+  'GLP' |
+  'GUM' |
+  'KWT' |
+  'COK' |
+  'GRL' |
+  'CXR' |
+  'GRD' |
+  'HRV' |
+  'CYM' |
+  'KEN' |
+  'CIV' |
+  'CCK' |
+  'CRI' |
+  'COM' |
+  'COL' |
+  'COG' |
+  'COD' |
+  'SAU' |
+  'SGS' |
+  'WSM' |
+  'STP' |
+  'BLM' |
+  'ZMB' |
+  'SPM' |
+  'SMR' |
+  'MAF' |
+  'SLE' |
+  'DJI' |
+  'GIB' |
+  'JEY' |
+  'JAM' |
+  'GEO' |
+  'SYR' |
+  'SGP' |
+  'SXM' |
+  'ZWE' |
+  'CHE' |
+  'SWE' |
+  'SDN' |
+  'SJM' |
+  'ESP' |
+  'SUR' |
+  'LKA' |
+  'SVK' |
+  'SVN' |
+  'SYC' |
+  'GNQ' |
+  'SEN' |
+  'SRB' |
+  'KNA' |
+  'VCT' |
+  'SHN' |
+  'LCA' |
+  'SOM' |
+  'SLB' |
+  'TCA' |
+  'THA' |
+  'KOR' |
+  'TWN' |
+  'TJK' |
+  'TZA' |
+  'CZE' |
+  'TCD' |
+  'CAF' |
+  'CHN' |
+  'TUN' |
+  'PRK' |
+  'CHL' |
+  'TUV' |
+  'DNK' |
+  'DEU' |
+  'TGO' |
+  'TKL' |
+  'DOM' |
+  'DMA' |
+  'TTO' |
+  'TKM' |
+  'TUR' |
+  'TON' |
+  'NGA' |
+  'NRU' |
+  'NAM' |
+  'ATA' |
+  'NIU' |
+  'NIC' |
+  'NER' |
+  'JPN' |
+  'ESH' |
+  'NCL' |
+  'NZL' |
+  'NPL' |
+  'NFK' |
+  'NOR' |
+  'HMD' |
+  'BHR' |
+  'HTI' |
+  'PAK' |
+  'VAT' |
+  'PAN' |
+  'VUT' |
+  'BHS' |
+  'PNG' |
+  'BMU' |
+  'PLW' |
+  'PRY' |
+  'BRB' |
+  'PSE' |
+  'HUN' |
+  'BGD' |
+  'TLS' |
+  'PCN' |
+  'FJI' |
+  'PHL' |
+  'FIN' |
+  'BTN' |
+  'BVT' |
+  'PRI' |
+  'FRO' |
+  'FLK' |
+  'BRA' |
+  'FRA' |
+  'GUF' |
+  'PYF' |
+  'ATF' |
+  'BGR' |
+  'BFA' |
+  'BRN' |
+  'BDI' |
+  'VNM' |
+  'BEN' |
+  'VEN' |
+  'BLR' |
+  'BLZ' |
+  'PER' |
+  'BEL' |
+  'POL' |
+  'BIH' |
+  'BWA' |
+  'BES' |
+  'BOL' |
+  'PRT' |
+  'HKG' |
+  'HND' |
+  'MHL' |
+  'MAC' |
+  'MDG' |
+  'MYT' |
+  'MWI' |
+  'MLI' |
+  'MLT' |
+  'MTQ' |
+  'MYS' |
+  'IMN' |
+  'FSM' |
+  'ZAF' |
+  'SSD' |
+  'MMR' |
+  'MEX' |
+  'MUS' |
+  'MRT' |
+  'MOZ' |
+  'MCO' |
+  'MDV' |
+  'MDA' |
+  'MAR' |
+  'MNG' |
+  'MNE' |
+  'MSR' |
+  'JOR' |
+  'LAO' |
+  'LVA' |
+  'LTU' |
+  'LBY' |
+  'LIE' |
+  'LBR' |
+  'ROU' |
+  'LUX' |
+  'RWA' |
+  'LSO' |
+  'LBN' |
+  'REU' |
+  'RUS'
+)
+
+export const COUNTRY_CODE: Record<CountryCode, string> = Object.freeze({
   ISL: "ISL", // アイスランド
   IRL: "IRL", // アイルランド
   AZE: "AZE", // アゼルバイジャン
@@ -501,3 +753,17 @@ export const COUNTRY_NAME_BY_CODE = Object.freeze({
   "REU": "レユニオン",
   "RUS": "ロシア連邦",
 })
+
+export const AVALIABLE_COUNTRY_CODES: readonly CountryCode[] = Object.freeze([
+  "JPN",
+  "CHN",
+  "VNM",
+  "NPL",
+  "KOR",
+  "IDN",
+  "TWN",
+  "LKA",
+  "MMR",
+  "BGD",
+  "MNG",
+])
