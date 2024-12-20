@@ -84,6 +84,49 @@ def get_recipe_ranking():
         # サーバーエラーの場合
         return jsonify({"error": str(e)}), 500
 
+@app.route('/recipes/<int:recipe_id>', methods=['GET'])
+def get_recipe_by_id(recipe_id):
+
+    try:
+        # ヘッダーから国情報を取得
+        # country = get_country_code_from_request(request=request)
+        country = "Japan"
+        if not country:
+            return jsonify({"error": "Country header is required"}), 400
+
+        # レシピをデータベースから取得
+        recipe = (
+            db.session.query(Recipe)
+            .join(Like)
+            .filter(Recipe.recipe_id == recipe_id, Like.country == country)
+            .first()
+        )
+
+        if not recipe:
+            return jsonify({"error": "Recipe not found"}), 404
+
+        # レシピのデータをシリアライズ
+        recipe_data = {
+            "recipe_id": recipe.recipe_id,
+            "recipe_name": recipe.recipe_name,
+            "thumbnail": recipe.thumbnail,
+            "instructions": recipe.instructions,
+            'ingredients': [
+                {
+                    'ingredient_name': ingredient_quantity.ingredient.ingredient_name,
+                    'quantity': ingredient_quantity.quantity
+                }
+                for ingredient_quantity in recipe.ingredient_quantities
+            ],
+            "likes": next((like.like_count for like in recipe.likes if like.country == country), 0)
+        }
+
+        return jsonify(recipe_data), 200
+
+    except Exception as e:
+        app.logger.error(f"Error occurred: {str(e)}")
+        return jsonify({"error": "Internal server error"}), 500
+
 # 起動
 def start_app():
     options = get_gunicorn_options()
