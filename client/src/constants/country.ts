@@ -1,4 +1,4 @@
-type CountryCode = (
+export type CountryCode = (
   'ISL' |
   'IRL' |
   'AZE' |
@@ -788,4 +788,3 @@ export type AvailableCountryCode = keyof typeof imgFlagByAvailableCountryCodes;
 export const getFlagImageByAvailableCountryCodes = (countryCode: AvailableCountryCode): string => {
   return imgFlagByAvailableCountryCodes[countryCode];
 };
-

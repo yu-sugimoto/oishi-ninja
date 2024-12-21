@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { components } from "../schema.d.ts"
-import { onMounted, ref, watch, computed } from "vue"
+import { onMounted, ref, computed } from "vue"
 import { useCountryStore } from "../store/useCountryStore.ts"
 import GoodButton from '../components/GoodButton.vue'
 import ArrowLink from '../components/ArrowLink.vue'

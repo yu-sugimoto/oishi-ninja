@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
-import { AVALIABLE_COUNTRY_CODES, COUNTRY_NAME_BY_CODE } from "../constants/country.ts"
+import { AvailableCountryCode, AVALIABLE_COUNTRY_CODES, COUNTRY_NAME_BY_CODE, CountryCode } from "../constants/country.ts"
 import { useCountryStore } from "../store/useCountryStore.ts"
 import { countryCodeT } from "../type/countryType.ts";
 
@@ -18,10 +18,21 @@ for (const country of AVALIABLE_COUNTRY_CODES) {
 	countryOptions.push({ label, value })
 }
 
+function isAvailabelCountryCode(value: string): value is AvailableCountryCode {
+	const countryCode = value as CountryCode
+	return AVALIABLE_COUNTRY_CODES.includes(countryCode)
+}
+
 watch(selectedCountry, (newCountry) => {
 	if (isEmptyString(newCountry)){
 		return ;
 	}
+
+	if (!isAvailabelCountryCode(newCountry)) {
+		console.error("Invalid country code")
+		return ;
+	}
+
 	store.useSetCountry(newCountry)
 })
 
