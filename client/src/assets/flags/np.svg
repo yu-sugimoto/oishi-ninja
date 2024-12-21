@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600">
+  <defs>
+    <style>
+      .aq {
+        opacity: 0;
+      }
+
+      .aq, .ar, .as, .at {
+        stroke-width: 0px;
+      }
+
+      .aq, .as {
+        fill: #fff;
+      }
+
+      .ar {
+        fill: #d7000f;
+      }
+
+      .at {
+        fill: #003070;
+      }
+    </style>
+  </defs>
+  <g id="a" data-name="レイヤー 3">
+    <rect class="aq" y="0" width="900" height="600"/>
+  </g>
+  <g id="b" data-name="レイヤー 2">
+    <polygon class="at" points="205.56 600 205.56 0 694.44 308.64 386.43 308.64 675.44 600 205.56 600"/>
+    <path id="c" data-name="a" class="ar" d="M223.55,290.66h408.74L223.55,32.62v549.4h408.74L223.55,169.97v120.69Z"/>
+    <path class="as" d="M242.87,180.22c17.75,45.17,68.76,67.39,113.93,49.64,22.72-8.93,40.7-26.91,49.64-49.64,0,45.17-36.61,81.78-81.78,81.78s-81.78-36.61-81.78-81.78"/>
+    <circle class="as" cx="324.65" cy="218.28" r="38.06"/>
+    <g id="d">
+      <g id="e" data-name="c">
+        <path id="f" data-name="b" class="as" d="M339.21,183.15l-4.23-16.75-10.31,13.78"/>
+        <path id="g" data-name="b-2" class="as" d="M351.54,191.4l2.5-17.1-14.8,8.79"/>
+        <path id="h" data-name="b-3" class="as" d="M359.79,203.73l8.85-14.84-17.03,2.46"/>
+      </g>
+      <g id="i" data-name="c-2">
+        <path id="j" data-name="b-4" class="as" d="M362.68,218.29l13.86-10.32-16.68-4.25"/>
+        <path id="k" data-name="b-5" class="as" d="M359.77,232.84l16.75-4.23-13.78-10.31"/>
+        <path id="l" data-name="b-6" class="as" d="M351.54,245.17l17.1,2.5-8.79-14.8"/>
+      </g>
+    </g>
+    <g id="m" data-name="d-2">
+      <g id="n" data-name="c-3">
+        <path id="o" data-name="b-7" class="as" d="M310.09,183.15l4.23-16.75,10.31,13.78"/>
+        <path id="p" data-name="b-8" class="as" d="M297.76,191.4l-2.5-17.1,14.8,8.79"/>
+        <path id="q" data-name="b-9" class="as" d="M289.52,203.73l-8.85-14.84,17.03,2.46"/>
+      </g>
+      <g id="r" data-name="c-4">
+        <path id="s" data-name="b-10" class="as" d="M286.63,218.29l-13.86-10.32,16.68-4.25"/>
+        <path id="t" data-name="b-11" class="as" d="M289.52,232.84l-16.75-4.23,13.78-10.31"/>
+        <path id="u" data-name="b-12" class="as" d="M297.76,245.17l-17.1,2.5,8.79-14.8"/>
+      </g>
+    </g>
+    <circle class="as" cx="324.65" cy="434.81" r="55.73"/>
+    <g id="v" data-name="g">
+      <g id="w" data-name="f">
+        <path id="x" data-name="e" class="as" d="M339.08,488.65l-14.43,34-14.43-34"/>
+        <path id="y" data-name="e-2" class="as" d="M310.22,380.98l14.43-34,14.43,34"/>
+      </g>
+      <g id="z" data-name="f-2">
+        <path id="aa" data-name="e-3" class="as" d="M270.82,449.25l-34-14.43,34-14.43"/>
+        <path id="ab" data-name="e-4" class="as" d="M378.49,420.38l34,14.43-34,14.43"/>
+      </g>
+    </g>
+    <g id="ac" data-name="g-2">
+      <g id="ad" data-name="f-3">
+        <path id="ae" data-name="e-5" class="as" d="M310.24,488.65l-29.5,22.22,4.5-36.66"/>
+        <path id="af" data-name="e-6" class="as" d="M339.07,380.97l29.5-22.22-4.5,36.66"/>
+      </g>
+      <g id="ag" data-name="f-4">
+        <path id="ah" data-name="e-7" class="as" d="M270.81,420.39l-22.22-29.5,36.66,4.5"/>
+        <path id="ai" data-name="e-8" class="as" d="M378.49,449.23l22.22,29.5-36.66-4.5"/>
+      </g>
+    </g>
+    <g id="aj" data-name="g-3">
+      <g id="ak" data-name="f-5">
+        <path id="al" data-name="e-9" class="as" d="M285.25,474.23l-36.66,4.5,22.22-29.5"/>
+        <path id="am" data-name="e-10" class="as" d="M364.05,395.39l36.66-4.5-22.22,29.5"/>
+      </g>
+      <g id="an" data-name="f-6">
+        <path id="ao" data-name="e-11" class="as" d="M285.23,395.41l-4.5-36.66,29.5,22.22"/>
+        <path id="ap" data-name="e-12" class="as" d="M364.07,474.22l4.5,36.66-29.5-22.22"/>
+      </g>
+    </g>
+  </g>
+</svg>

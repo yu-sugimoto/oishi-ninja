@@ -767,3 +767,25 @@ export const AVALIABLE_COUNTRY_CODES: readonly CountryCode[] = Object.freeze([
   "BGD",
   "MNG",
 ])
+
+export const imgFlagByAvailableCountryCodes = Object.freeze({
+		"JPN": "/src/assets/flags/jp.svg",
+		"CHN": "/src/assets/flags/cn.svg",
+		"VNM": "/src/assets/flags/vn.png",
+		"NPL": "/src/assets/flags/np.svg",
+		"KOR": "/src/assets/flags/kr.svg",
+		"IDN": "/src/assets/flags/id.svg",
+		"TWN": "/src/assets/flags/taiwan.png",
+		"LKA": "/src/assets/flags/lk.svg",
+		"MMR": "/src/assets/flags/mm.svg",
+		"BGD": "/src/assets/flags/bd.svg",
+		"MNG": "/src/assets/flags/mn.svg",
+	}
+)
+
+export type AvailableCountryCode = keyof typeof imgFlagByAvailableCountryCodes;
+
+export const getFlagImageByAvailableCountryCodes = (countryCode: AvailableCountryCode): string => {
+  return imgFlagByAvailableCountryCodes[countryCode];
+};
+
