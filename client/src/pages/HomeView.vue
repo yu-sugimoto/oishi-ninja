@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import ChooseCountry from "../components/ChooseCountry.vue";
+import NavBar from "../components/NavBar.vue";
 
 </script>
 <template>
+	<NavBar/>
 	<main>
 		<h1 class="title">
 			あなたの好きな<br/>

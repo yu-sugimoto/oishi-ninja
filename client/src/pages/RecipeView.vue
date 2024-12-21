@@ -1,44 +1,70 @@
 <script setup lang="ts">
 import type { components } from "../schema.d.ts"
-import { onMounted, ref } from "vue"
-import type { Ref } from "vue"
-import { useRecipeState } from "../store/useRecipe.ts"
+import { onMounted, ref, watch, computed } from "vue"
 import { useCountryStore } from "../store/useCountryStore.ts"
 import GoodButton from '../components/GoodButton.vue'
 import ArrowLink from '../components/ArrowLink.vue'
 import RecipeIngredient from '../components/RecipeIngredient.vue'
 import MarkDownRender from '../components/MarkDownRender.vue'
+import { likeRecipeByCountryAndId, unlikeRecipeByCountryAndId, getRecipeByCountryAndId } from "../services/api.ts"
+import NavBar from '../components/NavBar.vue'
+import { getFlagImageByAvailableCountryCodes } from "../constants/country.ts"
 
-import { likeRecipeByCountryAndId, unlikeRecipeByCountryAndId } from "../services/api.ts"
+const props = defineProps<{
+	id: string
+}>();
 
-const recipeStore = useRecipeState()
 const countryStore = useCountryStore()
-
 const countryName = countryStore.countryName
-const recipe: Ref<components["schemas"]["Recipe"] | ""> = ref("")
+const recipe = ref<components["schemas"]["Recipe"] | null>(null)
+const countryFlag = computed(() =>
+  countryStore.countryName ? getFlagImageByAvailableCountryCodes(countryStore.countryName) : undefined
+);
 
-const setRecipeToRef = () => {
-	const storedRecipe = recipeStore.getRecipe().value
-	if (storedRecipe !== "") {
-		recipe.value = storedRecipe as components["schemas"]["Recipe"]
+onMounted(async () => {
+	if (!countryStore.countryName) {
+		countryStore.loadFromLocalStorage();
 	}
-}
+  if (countryStore.countryName) {
+    await getRecipeData(countryStore.countryName);
+  }
+});
 
-const handleGoodButtonClick = (status: string) => {
+const getRecipeData = async (countryName: string) => {
+  try {
+    recipe.value = await getRecipeByCountryAndId(countryName, props.id) as components["schemas"]["Recipe"];
+  } catch (error) {
+    console.error(`Failed to fetch recipe: ${error}`);
+  }
+};
+
+const handleGoodButtonClick = async (status: string) => {
 	if (recipe.value) {
 		if (status === 'like') {
-			likeRecipeByCountryAndId(countryName, recipe.value.id)
+			try {
+				await likeRecipeByCountryAndId(countryName, props.id)
+			}
+			catch(error) {
+				console.error(`likeRecipeByCountryAndId ${error}`)
+			}
 		}
 		else if (status === 'unlike') {
-			unlikeRecipeByCountryAndId(countryName, recipe.value.id)
+			try {
+				await unlikeRecipeByCountryAndId(countryName, props.id)
+			}
+			catch(error){
+				console.error(`unlikeRecipeByCountryAndId ${error}`)
+			}
 		}
 	}
 }
 
-onMounted(setRecipeToRef)
 </script>
 <template>
 	<main>
+		<NavBar
+			:flag-path="countryFlag"
+		/>
 		<ArrowLink
 			to="/ranking"
 			message="ランキングページに戻る"

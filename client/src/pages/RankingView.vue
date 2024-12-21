@@ -1,22 +1,19 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue"
 import { useCountryStore } from "../store/useCountryStore.ts"
-import { countryCodeT } from "../type/countryType.ts"
+import { getFlagImageByAvailableCountryCodes } from "../constants/country.ts"
 import { getRecipeRankingByCountryCode } from "../services/api"
 import RecipeCard from "../components/RecipeCard.vue"
 import ArrowLink from "../components/ArrowLink.vue"
 import type { components } from "../schema.d.ts"
-
-// TODO: devide component just check move
-import { useRecipeState } from '../store/useRecipe.ts'
-const { setRecipe } = useRecipeState()
-const registerRecipePinia = (recipe: components["schemas"]["Recipe"]) => {
-	setRecipe(recipe)
-}
+import NavBar from "../components/NavBar.vue"
 
 const store = useCountryStore()
 const rankings = ref<components["schemas"]["RecipeRankingBody"] | null>()
-const currentCountry: countryCodeT | "" = store.getCountryName()
+const currentCountry = store.getCountryName()
+const countryFlag: string | undefined = currentCountry
+  ? getFlagImageByAvailableCountryCodes(currentCountry)
+  : undefined;
 
 const fetchRecipeRanking = async () => {
 	try {
@@ -35,6 +32,9 @@ onMounted(fetchRecipeRanking)
 
 <template>
 	<main>
+		<NavBar
+			:flag-path="countryFlag"
+		/>
 		<ArrowLink
 			to="/"
 			message="国選択に戻る"
@@ -44,7 +44,6 @@ onMounted(fetchRecipeRanking)
 		<div v-if="rankings?.recipes?.length">
 			<div class="recipe-cards" v-for="(recipe, index) in rankings?.recipes" :key="recipe.id">
 					<RecipeCard
-						@recipe-img-click="registerRecipePinia(recipe)"
 						link-page-name="recipe"
 						:link-id="recipe?.id"
 						:ranking-index="index"
