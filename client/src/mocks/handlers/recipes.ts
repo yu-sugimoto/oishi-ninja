@@ -100,7 +100,7 @@ export const handlers = [
 
     return HttpResponse.json(body, { status: 200 })
   }),
-  http.get(endpoint('/recipes/{recipeId}'), (context) => {
+  http.get(endpoint('/recipes/:recipeId'), (context) => {
     const country = context.request.headers.get('X-Country') ?? COUNTRY_CODE.PHL
     if (!country) {
       const body: components['responses']['GetRecipeBadRequestResponse']['content']['application/json'] = {
@@ -134,7 +134,7 @@ export const handlers = [
 
     return HttpResponse.json(body, { status: 200 })
   }),
-  http.post(endpoint('/recipes/{recipeId}/likes'), (context) => {
+  http.post(endpoint('/recipes/:recipeId/likes'), (context) => {
     const country = context.request.headers.get('X-Country') ?? COUNTRY_CODE.PHL
     if (!country) {
       const body: components['responses']['LikeRecipeBadRequestResponse']['content']['application/json'] = {
@@ -183,7 +183,7 @@ export const handlers = [
     }
     return HttpResponse.json(body, { status: 200 })
   }),
-  http.delete(endpoint('/recipes/{recipeId}/likes'), (context) => {
+  http.delete(endpoint('/recipes/:recipeId/likes'), (context) => {
     const country = context.request.headers.get('X-Country')
     if (!country) {
       const body: components['responses']['UnlikeRecipeBadRequestResponse']['content']['application/json'] = {
