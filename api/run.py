@@ -18,7 +18,7 @@ CORS(app)
 def health_check():
     return jsonify({'message': 'Hello World'}), 200
 
-# 全データの取得（RDBの確認）
+# 全データの取得（RDBの確認テスト）
 @app.route('/recipes', methods=['GET'])
 def get_users():
     recipes = Recipe.query.all()
@@ -39,7 +39,6 @@ def get_users():
                 {
                     'country': like.country,
                     'like_count': like.like_count,
-                    'dislike_count': like.dislike_count,
                     'created_at': like.created_at.isoformat()
                 }
                 for like in recipe.likes
@@ -63,36 +62,45 @@ def get_recipe_ranking():
         recipes = db.session.query(Recipe).join(Like).filter(Like.country == country) \
             .order_by(Like.like_count.desc()).offset(offset).limit(count).all()
 
-        # レシピをJSON形式で返す
-        recipe_data = []
-        for recipe in recipes:
-            likes = 0
-            for like in recipe.likes:
-                if like.country == country:
-                    likes += like.like_count
-
-            recipe_data.append({
+        # レシピとページネーションのデータをJSON形式で返す
+        recipe_data = [
+            {
                 "id": f"{recipe.recipe_id}",
                 "name": recipe.recipe_name,
                 "thumbnail": recipe.thumbnail,
                 "instructions": recipe.instructions,
-                'likes': likes
-            })
+                'ingredientQuantities': [
+                    {
+                        "ingredient": {
+                            "id": f"{ingredient_quantity.ingredient.ingredient_id}", 
+                            "name": ingredient_quantity.ingredient.ingredient_name
+                        },
+                        "quantity": ingredient_quantity.quantity
+                    }
+                    for ingredient_quantity in recipe.ingredient_quantities
+                ],                
+                'likes': sum((like.like_count for like in recipe.likes if like.country == country)) 
+            }
+            for recipe in recipes
+        ]
 
-        return jsonify({"recipes": recipe_data}), 200
+        pagination_data = {
+            "total": len(recipes),
+            "offset": offset,
+            "limit": count
+        }
+
+        return jsonify({"recipes": recipe_data, "pagination": pagination_data}), 200
     except Exception as e:
-        # サーバーエラーの場合
-        return jsonify({"error": str(e)}), 500
+        app.logger.error(f"Error occurred: {str(e)}")
+        return jsonify({"message": "Internal server error"}), 500
 
-@app.route('/recipes/<int:recipe_id>', methods=['GET'])
+# ヘッダーで指定された国のレシピを取得
+@app.route('/recipes/<string:recipe_id>', methods=['GET'])
 def get_recipe_by_id(recipe_id):
-
     try:
         # ヘッダーから国情報を取得
-        # country = get_country_code_from_request(request=request)
-        country = "Japan"
-        if not country:
-            return jsonify({"error": "Country header is required"}), 400
+        country = get_country_code_from_request(request=request)
 
         # レシピをデータベースから取得
         recipe = (
@@ -103,29 +111,88 @@ def get_recipe_by_id(recipe_id):
         )
 
         if not recipe:
-            return jsonify({"error": "Recipe not found"}), 404
+            return jsonify({"message": "Not found"}), 404
 
-        # レシピのデータをシリアライズ
+        # レシピのデータをJSON形式で返す
         recipe_data = {
-            "recipe_id": recipe.recipe_id,
-            "recipe_name": recipe.recipe_name,
+            "id": f"{recipe.recipe_id}",
+            "name": recipe.recipe_name,
             "thumbnail": recipe.thumbnail,
             "instructions": recipe.instructions,
-            'ingredients': [
+            'ingredientQuantities': [
                 {
-                    'ingredient_name': ingredient_quantity.ingredient.ingredient_name,
-                    'quantity': ingredient_quantity.quantity
+                    "ingredient": {
+                        "id": f"{ingredient_quantity.ingredient.ingredient_id}", 
+                        "name": ingredient_quantity.ingredient.ingredient_name
+                    },
+                    "quantity": ingredient_quantity.quantity
                 }
                 for ingredient_quantity in recipe.ingredient_quantities
             ],
-            "likes": next((like.like_count for like in recipe.likes if like.country == country), 0)
+            "likes": sum((like.like_count for like in recipe.likes if like.country == country))
         }
 
         return jsonify(recipe_data), 200
 
     except Exception as e:
         app.logger.error(f"Error occurred: {str(e)}")
-        return jsonify({"error": "Internal server error"}), 500
+        return jsonify({"message": "Internal server error"}), 500
+
+# ヘッダーで指定された国のレシピをいいねする
+@app.route('/recipes/<string:recipe_id>/likes', methods=['POST'])
+def like_recipe(recipe_id):
+    try:
+        # ヘッダーから国情報を取得
+        country = get_country_code_from_request(request=request)
+
+        # レシピの存在確認
+        recipe = Recipe.query.get(recipe_id)
+        if not recipe:
+            return jsonify({"message": "Not found"}), 404
+
+        # いいねを増やす（likesテーブルを更新）
+        like = Like.query.filter_by(recipe_id=recipe_id, country=country).first()
+        like.like_count += 1
+        db.session.commit()
+
+        return jsonify({'message': 'いいねしました', "likes": like.like_count}), 200
+    except Exception as e:
+        app.logger.error(f"Error occurred: {str(e)}")
+        return jsonify({"message": "Internal server error"}), 500
+
+# いいねを削除する
+@app.route('/recipes/<string:recipe_id>/likes', methods=['DELETE'])
+def unlike_recipe(recipe_id):
+    try:
+        # ヘッダーから国情報を取得
+        country = get_country_code_from_request(request=request)
+
+        # レシピの存在確認
+        recipe = Recipe.query.get(recipe_id)
+        if not recipe:
+            return jsonify({"message": "Not found"}), 404
+
+        # いいねを減らす（likesテーブルを更新）
+        like = Like.query.filter_by(recipe_id=recipe_id, country=country).first()
+        if like.like_count > 0:
+            like.like_count -= 1
+        db.session.commit()
+
+        return jsonify({'message': 'いいねを削除しました', "likes": like.like_count}), 200
+    except Exception as e:
+        app.logger.error(f"Error occurred: {str(e)}")
+        return jsonify({"message": "Internal server error"}), 500
+
+# 起動（開発環境）
+# def start_app():
+#     """Flask アプリケーションを起動するスクリプト"""
+#     import os
+#     port = int(os.getenv("PORT", 4000))
+#     print(f"ポート {port} でアプリケーションを起動します")
+#     app.run(host="0.0.0.0", port=port)
+
+# if __name__ == "__main__":
+#     start_app()
 
 # 起動
 def start_app():
