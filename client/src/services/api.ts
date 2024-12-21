@@ -1,6 +1,4 @@
-import { paths } from "../schema"
-
-export function endpoint (path: keyof paths) {
+export function endpoint (path: string) {
   return `${import.meta.env.VITE_API_URL}${path}`
 }
 
