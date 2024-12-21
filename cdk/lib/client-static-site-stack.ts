@@ -86,6 +86,13 @@ export class ClientStaticSiteStack extends Stack {
       ],
     });
 
+    // /assets/ 用の Behavior を追加
+    distribution.addBehavior('/assets/*', new cloudfrontOrigins.S3Origin(staticSiteBucket), {
+      viewerProtocolPolicy: cloudfront.ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
+      allowedMethods: cloudfront.AllowedMethods.ALLOW_GET_HEAD_OPTIONS, // 必要に応じて許可するメソッドを設定
+      cachePolicy: cloudfront.CachePolicy.CACHING_OPTIMIZED, // キャッシュポリシーを設定
+    });
+
     // バケットポリシーにCloudFront OACを設定
     staticSiteBucket.addToResourcePolicy(new iam.PolicyStatement({
       actions: ['s3:GetObject'],

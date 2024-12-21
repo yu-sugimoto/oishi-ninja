@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from "vue"
 import { useCountryStore } from "../store/useCountryStore.ts"
-import { getFlagImageByAvailableCountryCodes } from "../constants/country.ts"
+import { getFlagImageByAvailableCountryCodes } from "../constants/flags.ts"
 import { getRecipeRankingByCountryCode } from "../services/api"
 import RecipeCard from "../components/RecipeCard.vue"
 import ArrowLink from "../components/ArrowLink.vue"
