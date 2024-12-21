@@ -7,10 +7,6 @@ import RecipeCard from "../components/RecipeCard.vue"
 import ArrowLink from "../components/ArrowLink.vue"
 import type { components } from "../schema.d.ts"
 
-// TODO: devide component just check move
-import { useRecipeState } from '../store/useRecipe.ts'
-const { setRecipe } = useRecipeState()
-
 const store = useCountryStore()
 const rankings = ref<components["schemas"]["RecipeRankingBody"] | null>()
 const currentCountry: countryCodeT | "" = store.getCountryName()
