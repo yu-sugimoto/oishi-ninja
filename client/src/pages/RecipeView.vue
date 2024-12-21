@@ -8,6 +8,8 @@ import ArrowLink from '../components/ArrowLink.vue'
 import RecipeIngredient from '../components/RecipeIngredient.vue'
 import MarkDownRender from '../components/MarkDownRender.vue'
 import { likeRecipeByCountryAndId, unlikeRecipeByCountryAndId, getRecipeByCountryAndId } from "../services/api.ts"
+import NavBar from '../components/NavBar.vue'
+import { getFlagImageByAvailableCountryCodes } from "../constants/country.ts"
 
 const props = defineProps<{
 	id: string
@@ -15,6 +17,10 @@ const props = defineProps<{
 
 const countryStore = useCountryStore()
 const countryName = countryStore.countryName
+const countryFlag: string | undefined = countryName
+  ? getFlagImageByAvailableCountryCodes(countryName)
+  : undefined;
+
 const recipe = ref<components["schemas"]["Recipe"] | null>(null)
 
 onMounted(async () => {
@@ -40,6 +46,9 @@ const handleGoodButtonClick = (status: string) => {
 </script>
 <template>
 	<main>
+		<NavBar
+			:flag-path="countryFlag"
+		/>
 		<ArrowLink
 			to="/ranking"
 			message="ランキングページに戻る"
