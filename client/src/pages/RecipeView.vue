@@ -8,7 +8,7 @@ import RecipeIngredient from '../components/RecipeIngredient.vue'
 import MarkDownRender from '../components/MarkDownRender.vue'
 import { likeRecipeByCountryAndId, unlikeRecipeByCountryAndId, getRecipeByCountryAndId } from "../services/api.ts"
 import NavBar from '../components/NavBar.vue'
-import { getFlagImageByAvailableCountryCodes } from "../constants/country.ts"
+import { getFlagImageByAvailableCountryCodes } from "../constants/flags.ts"
 
 const props = defineProps<{
 	id: string

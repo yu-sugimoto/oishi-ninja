@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
-import { AvailableCountryCode, AVALIABLE_COUNTRY_CODES, COUNTRY_NAME_BY_CODE, CountryCode } from "../constants/country.ts"
+import { AVALIABLE_COUNTRY_CODES, COUNTRY_NAME_BY_CODE, CountryCode } from "../constants/country.ts"
+import { AvailableCountryCode } from "../constants/flags.ts"
 import { useCountryStore } from "../store/useCountryStore.ts"
 import { countryCodeT } from "../type/countryType.ts";
 

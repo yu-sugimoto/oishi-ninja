@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { ref, Ref } from "vue";
-import type { AvailableCountryCode } from "../constants/country.ts";
+import type { AvailableCountryCode } from "../constants/flags";
 
 export const useCountryStore = defineStore("country", () => {
   const countryName: Ref<AvailableCountryCode | ''> = ref('');
@@ -30,4 +30,3 @@ export const useCountryStore = defineStore("country", () => {
     storage: window.localStorage, // Use localStorage
   },
 });
-
