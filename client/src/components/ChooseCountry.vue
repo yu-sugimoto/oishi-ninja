@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
-import { COUNTRY_CODE, COUNTRY_NAME_BY_CODE } from "../constants/country.ts"
+import { AVALIABLE_COUNTRY_CODES, COUNTRY_NAME_BY_CODE } from "../constants/country.ts"
 import { useCountryStore } from "../store/useCountryStore.ts"
 import { countryCodeT } from "../type/countryType.ts";
 
@@ -12,7 +12,7 @@ const isEmptyString = (value: string): value is "" => {
 }
 
 const countryOptions: { label: string, value: string}[] = []
-for (const country of Object.values(COUNTRY_CODE)) {
+for (const country of AVALIABLE_COUNTRY_CODES) {
 	const value = country
 	const label = COUNTRY_NAME_BY_CODE[country]
 	countryOptions.push({ label, value })
@@ -31,7 +31,7 @@ watch(selectedCountry, (newCountry) => {
 	<div class="selector-wrapper">
 		<select class="country-selector" v-model=selectedCountry >
 			<option value="">国籍を選択</option>
-			<option v-for="option in countryOptions" :key="option.value" :value="option" >
+			<option v-for="option in countryOptions" :key="option.value" :value="option.value" >
 				{{ option.label }}
 			</option>
 		</select>

@@ -36,22 +36,6 @@ cdk bootstrap
 cdk deploy
 ```
 
-これにより、AWSアカウントに必要なリソースがデプロイされます。
-
-## システム構成図
-
-以下は、Oishi Ninjaシステムの構成図です。
-
-```mermaid
-graph TD;
-  A[User] --> B[API Gateway]
-  B --> C[Lambda Function]
-  C --> D[DynamoDB]
-  C --> E[S3 Bucket]
-```
-
-この図は、ユーザーがAPI Gatewayを介してリクエストを送信し、Lambda関数がそれを処理してDynamoDBおよびS3バケットとやり取りすることを示しています。
-
 ## その他のコマンド
 
 スタックを削除するには、以下のコマンドを使用します。

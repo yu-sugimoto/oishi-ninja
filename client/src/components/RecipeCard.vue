@@ -36,21 +36,26 @@ const rankingClassObject = computed(() => ({
 
 <template>
 	<div class="recipe-card">
-		<RouterLink 
+		<RouterLink
 			class="router-link"
 			@click="handleImgClick"
 			:to="{
-				name: 'recipe', 
+				name: 'recipe',
 				params: { id: props.linkId }
 			}"
 		>
-			<div 
-				class="recipe-card__ranking" 
+			<div
+				class="recipe-card__ranking"
 				:class="rankingClassObject"
 				v-if="isShowRanking()">
 				{{ props.rankingIndex + 1 }}
 			</div>
-			<img class="recipe-card__keyvisual" :src="props.imagePath" :alt="title" />
+			<img class="recipe-card__keyvisual"
+				:src="props.imagePath" :alt="title"
+				style="object-fit: cover;"
+				width="300px"
+				height="200px"
+			/>
 		</RouterLink>
 		<p class="recipe-card__title">
 			{{ props.title }}

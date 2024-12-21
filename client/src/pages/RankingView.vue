@@ -11,7 +11,6 @@ import type { components } from "../schema.d.ts"
 import { useRecipeState } from '../store/useRecipe.ts'
 const { setRecipe } = useRecipeState()
 const registerRecipePinia = (recipe: components["schemas"]["Recipe"]) => {
-	console.log(recipe)
 	setRecipe(recipe)
 }
 
@@ -36,7 +35,7 @@ onMounted(fetchRecipeRanking)
 
 <template>
 	<main>
-		<ArrowLink 
+		<ArrowLink
 			to="/"
 			message="国選択に戻る"
 			class="arrowlink-top"
@@ -44,7 +43,7 @@ onMounted(fetchRecipeRanking)
 
 		<div v-if="rankings?.recipes?.length">
 			<div class="recipe-cards" v-for="(recipe, index) in rankings?.recipes" :key="recipe.id">
-					<RecipeCard 
+					<RecipeCard
 						@recipe-img-click="registerRecipePinia(recipe)"
 						link-page-name="recipe"
 						:link-id="recipe?.id"
@@ -54,7 +53,7 @@ onMounted(fetchRecipeRanking)
 					/>
 			</div>
 		</div>
-		<ArrowLink 
+		<ArrowLink
 			to="/"
 			message="国選択に戻る"
 			class="arrowlink-bottom"
@@ -79,4 +78,3 @@ onMounted(fetchRecipeRanking)
 	margin-left: 10px;
 }
 </style>
-

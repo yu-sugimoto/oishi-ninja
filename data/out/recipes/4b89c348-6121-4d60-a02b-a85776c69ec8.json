@@ -15,5 +15,18 @@
       "ingredientName": "はちみつ",
       "quantity": "大さじ1"
     }
-  ]
+  ],
+  "likes": {
+    "JPN": 240,
+    "CHN": 200,
+    "VNM": 180,
+    "NPL": 150,
+    "KOR": 220,
+    "IDN": 190,
+    "TWN": 210,
+    "LKA": 160,
+    "MMR": 180,
+    "BGD": 140,
+    "MNG": 120
+  }
 }

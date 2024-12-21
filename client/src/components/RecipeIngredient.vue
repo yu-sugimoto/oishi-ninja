@@ -51,18 +51,17 @@ const props = defineProps<Props>()
 .grid-table__title {
 	display: flex;
 	align-items: center;
-	padding-left: 10px;
+	padding-left: 15px;
 	font-size: 16px;
-	width: 100px;
+	width: 130px;
 	height: 64px;
 }
 .grid-table__content {
 	display: flex;
 	align-items: center;
-	padding-left: 22px;
+	padding-left: 15px;
 	font-size: 16px;
-
-	width: 210px;
+	width: 180px;
 	height: 64px;
 }
 /*最初のセルのスタイル*/

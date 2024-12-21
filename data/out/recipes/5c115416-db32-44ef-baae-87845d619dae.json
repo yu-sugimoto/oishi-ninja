@@ -39,5 +39,18 @@
       "ingredientName": "イエローテール",
       "quantity": "1尾"
     }
-  ]
+  ],
+  "likes": {
+    "JPN": 300,
+    "CHN": 200,
+    "VNM": 180,
+    "NPL": 70,
+    "KOR": 190,
+    "IDN": 80,
+    "TWN": 210,
+    "LKA": 60,
+    "MMR": 85,
+    "BGD": 75,
+    "MNG": 40
+  }
 }

@@ -15,7 +15,6 @@ const emits = defineEmits<Emits>()
 const isClicked = ref(false)
 const likeCountRef = ref(props.likeCount)
 
-//TODO: 後で分ける
 const handleButtonClick = () => {
 	isClicked.value = !isClicked.value
 	if (isClicked.value === true) {

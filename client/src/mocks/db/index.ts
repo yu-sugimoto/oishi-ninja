@@ -58,9 +58,9 @@ for (const recipe of recipes) {
   createRecipeWithIngredients(recipe);
 }
 
-console.log(`Successfully seeded ${db.recipe.count()} recipes`);
-console.log(`Successfully seeded ${db.recipeIngredientQuantity.count()} recipe ingredient quantities`);
-console.log(`Successfully seeded ${db.ingredient.count()} ingredients`);
-console.log(`Successfully seeded ${db.like.count()} likes`);
+console.info(`Successfully seeded ${db.recipe.count()} recipes`);
+console.info(`Successfully seeded ${db.recipeIngredientQuantity.count()} recipe ingredient quantities`);
+console.info(`Successfully seeded ${db.ingredient.count()} ingredients`);
+console.info(`Successfully seeded ${db.like.count()} likes`);
 
 export { db };

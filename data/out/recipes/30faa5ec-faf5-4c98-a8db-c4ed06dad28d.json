@@ -95,5 +95,18 @@
       "ingredientName": "ちくわ",
       "quantity": "4本"
     }
-  ]
+  ],
+  "likes": {
+    "JPN": 250,
+    "CHN": 220,
+    "VNM": 210,
+    "NPL": 140,
+    "KOR": 240,
+    "IDN": 180,
+    "TWN": 230,
+    "LKA": 150,
+    "MMR": 160,
+    "BGD": 120,
+    "MNG": 130
+  }
 }

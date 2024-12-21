@@ -66,6 +66,7 @@ fi
 
 # Viteプロジェクトのビルド
 log "Viteプロジェクトをビルド中..."
+npm install || { echo "[ERROR] npmパッケージのインストールに失敗しました。"; exit 1; }
 npm run build || { echo "[ERROR] ビルドに失敗しました。"; exit 1; }
 
 # ファイルのアップロード
