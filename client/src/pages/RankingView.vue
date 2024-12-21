@@ -10,9 +10,6 @@ import type { components } from "../schema.d.ts"
 // TODO: devide component just check move
 import { useRecipeState } from '../store/useRecipe.ts'
 const { setRecipe } = useRecipeState()
-const registerRecipePinia = (recipe: components["schemas"]["Recipe"]) => {
-	setRecipe(recipe)
-}
 
 const store = useCountryStore()
 const rankings = ref<components["schemas"]["RecipeRankingBody"] | null>()
