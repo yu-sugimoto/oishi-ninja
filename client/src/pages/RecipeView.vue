@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { components } from "../schema.d.ts"
-import { onMounted, ref } from "vue"
-import type { Ref } from "vue"
+import { onMounted, ref, watch, computed } from "vue"
 import { useCountryStore } from "../store/useCountryStore.ts"
 import GoodButton from '../components/GoodButton.vue'
 import ArrowLink from '../components/ArrowLink.vue'
@@ -17,28 +16,45 @@ const props = defineProps<{
 
 const countryStore = useCountryStore()
 const countryName = countryStore.countryName
-const countryFlag: string | undefined = countryName
-  ? getFlagImageByAvailableCountryCodes(countryName)
-  : undefined;
-
 const recipe = ref<components["schemas"]["Recipe"] | null>(null)
+const countryFlag = computed(() =>
+  countryStore.countryName ? getFlagImageByAvailableCountryCodes(countryStore.countryName) : undefined
+);
 
 onMounted(async () => {
-	try {
-		recipe.value = await getRecipeByCountryAndId(countryName, props.id) as components["schemas"]["Recipe"]
+	if (!countryStore.countryName) {
+		countryStore.loadFromLocalStorage();
 	}
-	catch(error) {
-		console.error(`failed getRecipeByCountryAndId: ${error}`);
-	}
-})
+  if (countryStore.countryName) {
+    await getRecipeData(countryStore.countryName);
+  }
+});
 
-const handleGoodButtonClick = (status: string) => {
+const getRecipeData = async (countryName: string) => {
+  try {
+    recipe.value = await getRecipeByCountryAndId(countryName, props.id) as components["schemas"]["Recipe"];
+  } catch (error) {
+    console.error(`Failed to fetch recipe: ${error}`);
+  }
+};
+
+const handleGoodButtonClick = async (status: string) => {
 	if (recipe.value) {
 		if (status === 'like') {
-			likeRecipeByCountryAndId(countryName, props.id)
+			try {
+				await likeRecipeByCountryAndId(countryName, props.id)
+			}
+			catch(error) {
+				console.error(`likeRecipeByCountryAndId ${error}`)
+			}
 		}
 		else if (status === 'unlike') {
-			unlikeRecipeByCountryAndId(countryName, props.id)
+			try {
+				await unlikeRecipeByCountryAndId(countryName, props.id)
+			}
+			catch(error){
+				console.error(`unlikeRecipeByCountryAndId ${error}`)
+			}
 		}
 	}
 }
