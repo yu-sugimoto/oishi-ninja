@@ -83,7 +83,11 @@ const handleGoodButtonClick = async (status: string) => {
 					</div>
 				</div>
 				<div class="recipe-page__keyvisual">
-					<img :src="recipe.thumbnail" alt="" width="343px" height="243px">
+					<img
+						:src="recipe.thumbnail"
+						alt=""
+						width="343px" height="243px"
+						style="object-fit: cover;">
 				</div>
 				<MarkDownRender
 					:text="recipe?.instructions"
@@ -133,4 +137,3 @@ const handleGoodButtonClick = async (status: string) => {
 	margin-bottom: 50px;
 }
 </style>
-
