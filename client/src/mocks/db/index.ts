@@ -29,6 +29,7 @@ function getOrCreateIngredientId (name: string) {
 
 function createRecipeWithIngredients (recipe: RecipeInput) {
   const createdRecipe = db.recipe.create({
+    id: recipe.id,
     name: recipe.name,
     thumbnail: recipe.thumbnail,
     instructions: recipe.instructions.trim(),

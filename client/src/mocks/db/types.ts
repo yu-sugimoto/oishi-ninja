@@ -1,4 +1,5 @@
 export type RecipeInput = {
+  id: string;
   name: string;
   thumbnail: string;
   instructions: string;

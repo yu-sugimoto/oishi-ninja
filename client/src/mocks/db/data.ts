@@ -2,6 +2,7 @@ import { RecipeInput } from "./types";
 
 export const recipes: RecipeInput[] = [
   {
+    id: 'c2a32cda-2608-4f2b-9d6d-bd9c2c3ccb21',
     name: '肉じゃが',
     thumbnail: 'https://dummyimage.com/300x200/000/fff?text=肉じゃが',
     instructions: `
@@ -41,6 +42,7 @@ export const recipes: RecipeInput[] = [
     }
   },
   {
+    id: '38d9cbe5-ea53-43cf-944e-f31da5078637',
     name: 'カレー',
     thumbnail: 'https://dummyimage.com/300x200/000/fff?text=カレー',
     instructions: `
@@ -76,6 +78,7 @@ export const recipes: RecipeInput[] = [
     }
   },
   {
+    id: 'c45ee28a-45a2-4189-a118-cd4821e1b57b',
     name: '焼きそば',
     thumbnail: 'https://dummyimage.com/300x200/000/fff?text=焼きそば',
     instructions: `
@@ -108,6 +111,7 @@ export const recipes: RecipeInput[] = [
     }
   },
   {
+    id: '3888cad0-5447-4ce5-9835-f07a6eaba17e',
     name: 'コロッケ',
     thumbnail: 'https://dummyimage.com/300x200/000/fff?text=コロッケ',
     instructions: `
@@ -141,6 +145,7 @@ export const recipes: RecipeInput[] = [
     }
   },
   {
+    id: '08bab1e8-a619-46af-a816-e654196192d7',
     name: '唐揚げ',
     thumbnail: 'https://dummyimage.com/300x200/000/fff?text=唐揚げ',
     instructions: `
@@ -172,6 +177,7 @@ export const recipes: RecipeInput[] = [
     }
   },
   {
+    id: '6b7d0c20-2c63-4e5d-95cb-d92490982e08',
     name: '刺し身丼',
     thumbnail: 'https://dummyimage.com/300x200/000/fff?text=刺し身丼',
     instructions: `
@@ -200,6 +206,7 @@ export const recipes: RecipeInput[] = [
     }
   },
   {
+    id: 'ff2e6856-2e66-4e9a-92a7-7914e30d98c4',
     name: '切り干し大根',
     thumbnail: 'https://dummyimage.com/300x200/000/fff?text=切り干し大根',
     instructions: `
