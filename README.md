@@ -11,3 +11,7 @@
 - `cdk/` : インフラ構築
 - `data/` : サンプルデータの作成
 - `docs/` : ドキュメント
+
+# デモ
+
+[![デモ](./docs/cover.png)](https://youtu.be/VYSiWs9wOiM)
