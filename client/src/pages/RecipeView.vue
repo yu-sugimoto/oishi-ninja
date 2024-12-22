@@ -17,6 +17,9 @@ const props = defineProps<{
 const countryStore = useCountryStore()
 const countryName = countryStore.countryName
 const recipe = ref<components["schemas"]["Recipe"] | null>(null)
+
+console.log({recipe});
+console.log(!!recipe);
 const countryFlag = computed(() =>
   countryStore.countryName ? getFlagImageByAvailableCountryCodes(countryStore.countryName) : undefined
 );
@@ -70,7 +73,7 @@ const handleGoodButtonClick = async (status: string) => {
 			message="ランキングページに戻る"
 			class="arrow-link-top"
 		/>
-		<div class="recipe-page-center" v-if="recipe">
+		<div class="recipe-page-center" v-if="typeof recipe?.id == 'string'">
 				<div class="recipe-page__title">
 					<div class="recipe-page__name">
 						{{ recipe.name }}
@@ -90,10 +93,10 @@ const handleGoodButtonClick = async (status: string) => {
 						style="object-fit: cover;">
 				</div>
 				<MarkDownRender
-					:text="recipe?.instructions"
+					:text="recipe.instructions"
 				/>
 				<RecipeIngredient
-					:ingredientQuantities="recipe?.ingredientQuantities"
+					:ingredientQuantities="recipe.ingredientQuantities"
 					class="recipe-page__ingredient"
 				/>
 
